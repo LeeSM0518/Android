@@ -1,4 +1,4 @@
-package com.example.lenovo.sampletablelayout;
+package com.example.lenovo.samplewidget;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input);
+        setContentView(R.layout.edittext);
     }
 }

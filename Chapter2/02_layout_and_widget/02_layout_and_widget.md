@@ -992,30 +992,405 @@ activity_main.xml
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="3"
+            android:layout_span="3"	// 3 개의 칼럼을 차지하게 한다.
             />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="10dp"	// 위의 테이블에 10dp를 띄운다.
         >
         <Button
             android:id="@+id/button8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="2"
+            android:layout_column="2"	// 2번째 컬럼 위치
             android:text="아니오"
             />
         <Button
             android:id="@+id/button7"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="예"
+                                            android:text="예"                                                                                                                                                                                                                                                                            
             />
     </TableRow>
 
 </TableLayout>
 ```
 
+
+
+
+
+## 02-5. 스크롤뷰 사용하기
+
+: ScrollView 태그를 사용하며 그 안에는 하나의 뷰가 들어갈 수 있다.
+
+
+
+**/res/layout/activity_main.xml**(스크롤 뷰 사용하기)
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button	// 이미지 변경을 위한 버튼
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="이미지 바꾸어 보여주기"
+        android:onClick="onButton1Clicked"
+        />
+	
+    // 수평 스크롤 안에 스크롤뷰 추가 후 그 안에 이미지뷰를 추가
+    <HorizontalScrollView	// 수평 스크롤을 위한 스크롤뷰
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ScrollView	// 수직 스크롤을 위한 스크롤뷰
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView	// 이미지를 보여주는 스크롤뷰
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </HorizontalScrollView>
+
+</LinearLayout>
+```
+
+> 스크롤뷰는 기본적으로 수직 방향의 스크롤을 지원한다. 만약 수평 방향의 스크롤을 사용하려면 HorizontalScrollView를 이용하면 된다.
+
+![1546523678782](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546523678782.png)
+
+
+
+
+
+## 02-6. 프레임 레이아웃과 뷰의 전환
+
+: 프레임 레이아웃은 뷰를 하나 이상 추가할 경우 추가된 순서로 차곡차곡 쌓는다.(가시성 속성: 보이거나 보이지 않게 하는 속성)
+
+
+
+**/res/layout/activity_main.xml**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+    
+    // 이미지 전환 버튼
+    <Button
+        android:id="@+id/button"
+        android:layout_gravity="center"
+        android:text="이미지 바꾸기"
+        android:onClick="onButton1Clicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    // 프레임 레이아웃으로 나머지 화면 채우기
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        // 첫 번째 이미지뷰를 안보이도록 설정
+        <ImageView
+            android:id="@+id/imageView"
+            android:src="@drawable/dream01"
+            android:visibility="invisible"	// 안보이도록
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        // 두 번째 이미지뷰를 보이도록 설정
+        <ImageView
+            android:id="@+id/imageView2"
+            android:src="@drawable/dream02"
+            android:visibility="visible"	// 보이도록
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</LinearLayout>
+```
+
+
+
+
+
+## 02-7. 기본 위젯들
+
+### 텍스트뷰
+
+: 텍스트를 화면에 보여주는 역할
+
+#### text
+
+: 텍스트뷰에 보이는 문자열을 설정할 수 있다. /res/values 폴더 안에 들어 있는 string.xml 파일 안에 들어 있는 문자열을 지정할 수도 있다.
+
+* 참조파일: **SampleWidget>/res/values/strings.xml**
+
+  ```xml
+  <resources>
+      <string name="app_name">SampleWidget</string>
+      <string name="person_name">김진수</string>	// 김진수라는 사람 이름 추가
+  </resources>
+  ```
+
+  **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="100dp"
+          android:text="@string/person_name"	// 태그로 텍스트 저장
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+  </LinearLayout>
+  ```
+
+  ![1546528897703](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546528897703.png)
+
+
+
+
+
+#### textColor
+
+: 문자열의 색상을 설정한다. 색상 설정은 "#AARRGGBB" , 각각 Alpha, Red, Green, Blue를 의미한다. **ex) Alpha값: FF(불투명), 00(투명), 88(반투명)**
+
+
+
+#### textStyle
+
+: 문자열의 스타일 속성. "normal", "bold", "italic" 등의 값 지정 가능
+
+
+
+#### typeFace
+
+: 문자열의 폰트 설정
+
+
+
+#### maxLines
+
+: 텍스트뷰에서 표시하는 문자열의 최대 줄 수 설정
+
+
+
+
+
+### 버튼
+
+#### 체크 박스
+
+* 참조파일 : **SampleWidget>/res/layout/button.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_height="match_parent">
+      
+      <Button	// 기본 버튼
+          android:id="@+id/btnExit"
+          android:text=" 선택 "
+          android:textSize="24dp"
+          android:textStyle="bold"
+          android:gravity="center"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      
+      <RadioGroup	// 라디오 버튼 두 개를 묶어놓은 라디오 그룹
+          android:id="@+id/radioGroup01"
+          android:orientation="horizontal"
+          android:layout_marginTop="20dp"
+          android:paddingLeft="10dp"
+          android:paddingRight="10dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+          
+          <RadioButton	// 첫 번째 라디오 버튼
+              android:id="@+id/radio01"
+              android:text="남성"
+              android:textStyle="bold"
+              android:textColor="#ff55aaff"
+              android:textSize="24dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+          
+          <RadioButton	// 두 번째 라디오 버튼
+              android:id="@+id/radio02"
+              android:textSize="24dp"
+              android:textColor="#ff55aaff"
+              android:textStyle="bold"
+              android:text="여성"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+          
+      </RadioGroup>
+      
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical|center_horizontal"
+          android:paddingTop="20dp"
+          >
+          <TextView
+              android:text="하루종일"
+              android:textColor="#ff55aaff"
+              android:textSize="24dp"
+              android:paddingRight="10dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+          <CheckBox	// 체크 박스
+              android:id="@+id/allDay"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+      </LinearLayout>
+      
+  </LinearLayout>
+  ```
+
+  ![1546530438517](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546530438517.png)
+
+
+
+
+
+### 입력상자
+
+* 참조파일 : **SampleWidget>/res/layout/edittext.xml**
+
+  ```틔
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+  
+      <EditText
+          android:id="@+id/usernameInput"
+          android:textSize="24dp"
+          android:inputType="textCapWords"	// 입력되는 글자의 유형 정의
+          android:hint="이름을 입력하세요."	   // 기본 안내문 표시
+          android:layout_width="match_parent"	
+          android:layout_height="wrap_content" />
+  
+  </LinearLayout>
+  ```
+
+  > **hint 속성** : 글자를 입력하기 전에 간단한 안내글을 입력상자에 표시
+  >
+  > **inputType 속성** : 글자의 유형을 정할 수 있으며 글자를 입력할 때 보이는 키패드도 그 유형에 맞춰 보인다.
+
+  ![1546531161189](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546531161189.png)
+
+
+
+
+
+### 이미지뷰
+
+: 이미지를 화면에 표시하려고 제공되는 가장 간단한 위젯
+
+```xml
+@drawable/이미지명
+```
+
+> 이미지명은 이미지의 확장자를 제외한 이미지 파일의 이름
+
+
+
+#### src
+
+: 원본 이미지 설정.
+
+
+
+#### maxWidth, maxHeight
+
+: 이미지가 보일 최대 크기 설정
+
+
+
+#### tint
+
+: 이미지뷰에 보이는 이미지 위에 색상을 적용하고 싶을 때 설정
+
+
+
+#### scaleType
+
+: 원본 이미지의 크기와 다르게 화면에 보이는 경우 확대/축소를 어떤 방식으로 적용할 것인지 설정.
+
+
+
+#### drawble 폴더
+
+: drawable 폴더에는 해상도별 폴더가 있으므로 각 해상도에 맞는 크기의 이미지를 넣어야한다.
+
+
+
+* 참조파일: **SampleWidget>/res/layout/image.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_height="match_parent">
+  
+      <ImageButton	// 이미지 버튼을 사용해 이미지 추가
+          android:id="@+id/imageButton"
+          android:layout_marginTop="40dp"
+          android:layout_marginLeft="40dp"
+          android:background="@drawable/ok_btn"
+          android:contentDescription="ok button"
+          android:layout_width="50dp"
+          android:layout_height="50dp" />
+  
+      <ImageView		// 이미지뷰를 사용해 이미지 추가
+          android:id="@+id/imageView"
+          android:layout_marginLeft="160dp"
+          android:layout_marginTop="160dp"
+          android:background="@drawable/person"
+          android:contentDescription="person button"
+          android:layout_width="50dp"
+          android:layout_height="50dp" />
+  
+  </LinearLayout>
+  ```

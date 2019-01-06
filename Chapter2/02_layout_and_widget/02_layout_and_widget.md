@@ -1317,7 +1317,7 @@ activity_main.xml
   >
   > **inputType 속성** : 글자의 유형을 정할 수 있으며 글자를 입력할 때 보이는 키패드도 그 유형에 맞춰 보인다.
 
-  ![1546531161189](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546531161189.png)
+  S![1546531161189](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1546531161189.png)
 
 
 
@@ -1394,3 +1394,91 @@ activity_main.xml
   
   </LinearLayout>
   ```
+
+
+
+
+
+# 연습 문제
+
+activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_vertical||center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="200dp">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </ScrollView>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+```
+
+
+
+MainActivity.java
+
+```java
+package com.example.lenovo.problem;
+
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+
+public class MainActivity extends AppCompatActivity {
+    ScrollView scrollView;
+    ImageView imageView;
+    BitmapDrawable bitmap;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        scrollView = (ScrollView)findViewById(R.id.scrollView);
+        imageView = (ImageView)findViewById(R.id.imageView1);
+        scrollView.setHorizontalScrollBarEnabled(true);
+
+        Resources res = getResources();
+        bitmap = (BitmapDrawable)res.getDrawable(R.drawable.image);
+        int bitmapWidth = bitmap.getIntrinsicWidth();
+        int bitmapHeight = bitmap.getIntrinsicHeight();
+    }
+
+
+}
+```
+

@@ -2,7 +2,7 @@
 
 안드로이드 앱 프로그래밍
 
-[![Version](https://img.shields.io/badge/version-2019.01.02-blue.svg)](https://github.com/LeeSM0518/Android/blob/master/README.md)
+[![Version](https://img.shields.io/badge/version-2019.01.02-blue.svg)](https://github.com/LeeSM0518/Android/blob/master/VERSION.md)
 
 * 안드로이드 학습 내용 및 예제 작성
 

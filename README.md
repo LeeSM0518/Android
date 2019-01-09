@@ -2,7 +2,7 @@
 
 안드로이드 앱 프로그래밍
 
-[![Version](https://img.shields.io/badge/version-2019.01.02-blue.svg)](./VERSION)
+[![Version](https://img.shields.io/badge/version-2019.01.02-blue.svg)](https://github.com/LeeSM0518/Android/blob/master/VERSION.md)
 
 * 안드로이드 학습 내용 및 예제 작성
 
@@ -19,7 +19,7 @@
 * [activity_main.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter1/Hello/app/src/main/res/layout/activity_main.xml)
 * [activity_menu.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter1/Hello/app/src/main/res/layout/activity_menu.xml)
 
-
+<br>
 
 ### Chapter 02. 안드로이드 완벽 가이드
 
@@ -37,7 +37,7 @@
   * [SMS 입력 화면 및 글자수 표시, activity_message.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/09_problem/Problem/app/src/main/res/layout/activity_message.xml)
 
 
-
+<br>
 
 
 ## 참고 자료

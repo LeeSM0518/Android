@@ -6,7 +6,7 @@
 
 * 안드로이드 학습 내용 및 예제 작성
 
-
+<br>
 
 ## 분류
 
@@ -25,7 +25,7 @@
 
 #### 01. 안드로이드 스튜디오와 기본 레이아웃 익히기
 
-
+* [개념 정리](https://github.com/LeeSM0518/Android/blob/master/Chapter2/layout_basic.md)
 
 #### 02. 레이아웃과 기본 위젯 사용하기
 

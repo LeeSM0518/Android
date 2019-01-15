@@ -27,6 +27,8 @@
 
 * [개념 정리](https://github.com/LeeSM0518/Android/blob/master/Chapter2/layout_basic.md)
 
+<br>
+
 #### 02. 레이아웃과 기본 위젯 사용하기
 
 * [개념 정리](https://github.com/LeeSM0518/Android/blob/master/Chapter2/layout_and_widget.md)
@@ -36,6 +38,45 @@
   * [SMS 입력 화면 및 글자수 표시 message.java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/09_problem/Problem/app/src/main/java/com/example/lenovo/problem/message.java)
   * [SMS 입력 화면 및 글자수 표시, activity_message.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/09_problem/Problem/app/src/main/res/layout/activity_message.xml)
 
+<br>
+
+### 03. 애플리케이션 구성하기
+
+* [개념 정리](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/Application_Configuration.md)
+
+#### 03-1. 레이아웃 인플레이션 이해하기
+
+* **예제(내부적 객체화 구현, 버튼 눌러서 화면 추가하기)**
+  * [메인 화면 xml, activity_main.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/01_SampleLayoutInflater/app/src/main/res/layout/activity_main.xml)
+  * [메인 화면 java, MainActivity.java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/01_SampleLayoutInflater/app/src/main/java/com/example/samplelayoutinflater/MainActivity.java)
+  * [추가 화면, sub1.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/01_SampleLayoutInflater/app/src/main/res/layout/sub1.xml)
+
+#### 03-2. 화면 구성과 화면 간 전환
+
+* **예제(액티비티 간의 데이터 전송)**
+  * [매니페스트, AndroidManifest.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/02_SampleIntent/app/src/main/AndroidManifest.xml)
+  * [메인 화면 xml, activity_main.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/02_SampleIntent/app/src/main/res/layout/activity_main.xml)
+  * [메인 화면 java, MainActivity.java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/02_SampleIntent/app/src/main/java/com/example/sampleintent/MainActivity.java)
+  * [메뉴 화면 xml, activity_menu.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/02_SampleIntent/app/src/main/res/layout/activity_menu.xml)
+  * [메뉴 화면 java, MenuActivity.java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/02_SampleIntent/app/src/main/java/com/example/sampleintent/MenuActivity.java)
+
+#### 03-3. 인텐트 살펴보기
+
+* **예제(암시적 인텐트로 PDF 문서 보여주기)**
+  * [메니페스트, Manifest.xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SamplePDFView/app/src/main/AndroidManifest.xml)
+  * [메인 화면 xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SamplePDFView/app/src/main/res/layout/activity_main.xml)
+  * [메인 화면 java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SamplePDFView/app/src/main/java/com/example/samplepdfview/MainActivity.java)
+
+#### 03-4. 액티비티를 위한 플래그와 부가 데이터
+
+* **예제(Parcel 객체를 이용한 액티비티 간의 데이터 전달)**
+  * [Parsel 객체, SimpleData.java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleParcelable/app/src/main/java/com/example/sampleparcelable/SimpleData.java)
+  * [메인 화면 xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleParcelable/app/src/main/res/layout/activity_main.xml)
+  * [메인 화면 java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleParcelable/app/src/main/java/com/example/sampleparcelable/MainActivity.java)
+  * [메뉴 화면 xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleParcelable/app/src/main/res/layout/activity_menu.xml)
+  * [메뉴화면 java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleParcelable/app/src/main/java/com/example/sampleparcelable/MenuActivity.java)
+
+#### 03-5. 액티비티의 수명주기
 
 <br>
 

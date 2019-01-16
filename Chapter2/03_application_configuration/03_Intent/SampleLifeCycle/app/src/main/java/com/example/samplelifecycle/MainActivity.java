@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         nameInput = (EditText)findViewById(R.id.nameInput);
+        Log.d("data", "onCreate 호출");
         Toast.makeText(this, "onCreate 호출됨", Toast.LENGTH_LONG).show();
     }
 
@@ -25,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        Log.d("data", "onStart 호출");
         Toast.makeText(this, "onStart 호출됨", Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
+        Log.d("data", "onStop 호출");
         Toast.makeText(this, "onStop 호출됨", Toast.LENGTH_LONG).show();
     }
 
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d("data", "onResume 호출");
         Toast.makeText(this, "onResume 호출됨", Toast.LENGTH_LONG).show();
 
         // 설정 정보에 저장된 데이터를 복원
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        Log.d("data", "onPause 호출");
         Toast.makeText(this, "onPause 호출됨", Toast.LENGTH_LONG).show();
 
         // 현재 입력상자에 입력된 데이터 저장
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        Log.d("data", "onDestroy 호출");
         Toast.makeText(this, "onDestroy 호출됨", Toast.LENGTH_LONG).show();
         clearMyPrefs();
     }

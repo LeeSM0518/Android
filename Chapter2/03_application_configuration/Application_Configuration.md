@@ -396,38 +396,6 @@ public class MainActivity extends AppCompatActivity {
   }
   ```
 
-* **activity_main.xml**
-
-  ```xml
-  <?xml version="1.0" encoding="utf-8"?>
-  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      tools:context=".MainActivity">
-  
-      <!--정가운데 배치-->
-      <Button
-          android:id="@+id/button2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginBottom="8dp"
-          android:text="메뉴화면 띄우기"
-          android:onClick="onButton1Clicked"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
-  
-  </android.support.constraint.ConstraintLayout>
-  ```
-
 * **MainActivity.java**
 
   ```java
@@ -1216,3 +1184,825 @@ public class MainActivity extends AppCompatActivity {
 <br>
 
 ### 예제(토스트 메시지를 넣어 수명주기 확인하기)
+
+* **activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+  
+      <Button
+          android:id="@+id/button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:onClick="onButton1Clicked"
+          android:text="메뉴화면 띄우기"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <EditText
+          android:id="@+id/nameInput"
+          android:layout_marginTop="200dp"
+          app:layout_constraintBottom_toTopOf="@id/button"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:hint="이름을 입력하세요."
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **activity_menu.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MenuActivity">
+  
+      <Button
+          android:id="@+id/button2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:onClick="onButton2Clicked"
+          android:text="돌아가기"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.samplelifecycle;
+  
+  import android.app.Activity;
+  import android.content.Intent;
+  import android.content.SharedPreferences;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.EditText;
+  import android.widget.Toast;
+  
+  public class MainActivity extends AppCompatActivity {
+      EditText nameInput;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          nameInput = (EditText)findViewById(R.id.nameInput);
+          Toast.makeText(this, "onCreate 호출됨", Toast.LENGTH_LONG).show();
+      }
+  
+  
+      @Override
+      protected void onStart() {
+          super.onStart();
+  
+          Toast.makeText(this, "onStart 호출됨", Toast.LENGTH_LONG).show();
+      }
+  
+      @Override
+      protected void onStop() {
+          super.onStop();
+  
+          Toast.makeText(this, "onStop 호출됨", Toast.LENGTH_LONG).show();
+      }
+  
+      // 앱이 갑자기 중지되거나 또는 종료되면 데이터가 사라지기 때문에
+      // onPause 메소드 안에서 데이터를 저장하고
+      // onResume 메소드 안에서 복원해야 한다.
+      // 앱 안에서 간단한 데이터를 저장하거나 복원할 때는 SharedPreferences를 사용할 수 있다.
+      // 이것은 앱 내부에 파일을 하나 만들고 이 파일 안에서 데이터를 저장하거나 읽어올 수 있도록 한다.
+  
+      @Override
+      protected void onResume() {
+          super.onResume();
+  
+          Toast.makeText(this, "onResume 호출됨", Toast.LENGTH_LONG).show();
+  
+          // 설정 정보에 저장된 데이터를 복원
+          restoreState();
+      }
+  
+      @Override
+      protected void onPause() {
+          super.onPause();
+  
+          Toast.makeText(this, "onPause 호출됨", Toast.LENGTH_LONG).show();
+  
+          // 현재 입력상자에 입력된 데이터 저장
+          saveState();
+      }
+  
+      @Override
+      protected void onDestroy() {
+          super.onDestroy();
+  
+          Toast.makeText(this, "onDestroy 호출됨", Toast.LENGTH_LONG).show();
+          clearMyPrefs();
+      }
+  
+      public void onButton1Clicked(View v) {
+          Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+          startActivity(intent);
+      }
+  
+      protected void restoreState() {
+          SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+  
+          if ((pref != null) && (pref.contains("name")) ) {
+              String name = pref.getString("name", "");
+              nameInput.setText(name);
+          }
+      }
+      protected void saveState() {
+          SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+          SharedPreferences.Editor editor = pref.edit();
+          editor.putString("name", nameInput.getText().toString());
+          editor.commit();
+      }
+  
+      protected void clearMyPrefs() {
+          SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+          SharedPreferences.Editor editor = pref.edit();
+          editor.clear();
+          editor.commit();
+      }
+  }
+  ```
+
+* **MenuActivity.java**
+
+  ```java
+  package com.example.samplelifecycle;
+  
+  import android.content.Intent;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.Toast;
+  
+  public class MenuActivity extends AppCompatActivity {
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_menu);
+      }
+  
+      public void onButton2Clicked(View v) {
+          finish();
+      }
+  }
+  ```
+
+<br>
+
+---
+
+<br>
+
+## 03-6. 서비스
+
+: 백그라운드에서 실행되는 프로세스를 의미한다. 새로 만든 서비스는 항상 매니페스트 파일에 등록해야 한다. 그리고 서비스를 실행시키고 싶다면 메인 액티비티에서 startService() 메소드를 호출하면 된다.
+
+![1547606391509](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547606391509.png)
+
+* **startService()** : 인텐트를 전달하는 목적으로 많이 쓰인다
+* **onStartCommand()** : 전달 받은 인텐트를 처리하게 된다.
+
+<br>
+
+### 예제(서비스로부터 전달 받은 인탠트를 Log 출력 및 액티비티에서의 처리)
+
+* **activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <EditText
+          android:id="@+id/editText"
+          android:layout_width="300dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:text="김진수"
+          app:layout_constraintBottom_toTopOf="@+id/button"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <Button
+          android:id="@+id/button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:onClick="onButton1Clicked"
+          android:text="서비스로 보내기"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.sampleservice;
+  
+  import android.content.Intent;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.EditText;
+  import android.widget.Toast;
+  
+  public class MainActivity extends AppCompatActivity {
+      EditText editText;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          editText = (EditText)findViewById(R.id.editText);   // 입력 상자 참조
+  
+          // getIntent() 메소드를 호출하여 인텐트 객체를 참조한다.
+          Intent passedIntent = getIntent();
+          processIntent(passedIntent);
+      }
+  
+      // 만약 MainActivity 가 메모리에 만들어져 있다면
+      // onNewIntent() 메소드로 전달묀다.
+      protected void onNewIntent(Intent intent) {
+          // processIntent() 메소드를 만들고 그 안에서 객체 처리
+          processIntent(intent);
+  
+          super.onNewIntent(intent);
+      }
+  
+      private void processIntent(Intent intent) {
+          if (intent != null) {
+              String command = intent.getStringExtra("command");
+              String name = intent.getStringExtra("name");
+  
+              // 인텐트로 전달 받은 데이터를 토스트 메시지로 출력
+              Toast.makeText(this, "command : " + command + " , name : " + name,
+                      Toast.LENGTH_LONG).show();
+          }
+      }
+  
+      public void onButton1Clicked(View v) {
+          String name = editText.getText().toString();        // 입력 상자 내용 가져옴
+  
+          // 인텐트 객체 생성
+          Intent intent = new Intent(this, MyService.class);
+  
+          // 두 개의 부가 데이터
+          // 서비스 쪽으로 전달한 인텐트 객체의 데이터가 어떤 목적으로 사용되는지 구별하기 위함
+          intent.putExtra("command", "show");
+  
+          // 입력상자에서 가져온 문자열을 전달하기 위함
+          intent.putExtra("name", name);
+          startService(intent);
+      }
+  }
+  ```
+
+* **MyService.java**
+
+  ```java
+  package com.example.sampleservice;
+  
+  import android.app.Service;
+  import android.content.Intent;
+  import android.os.IBinder;
+  import android.util.Log;
+  
+  public class MyService extends Service {
+      public static final String TAG = "MyService";
+  
+      public MyService() {
+      }
+  
+      @Override
+      public IBinder onBind(Intent intent) {
+          // TODO: Return the communication channel to the service.
+          throw new UnsupportedOperationException("Not yet implemented");
+      }
+  
+      // Log.d() 메소드를 통해서 로그를 출력시킨다.
+      // Log의 첫 번째 파라미터로 태그 문자열(로그를 구별하는 역할)을 전달해야 한다.
+      @Override
+      public void onCreate() {
+          super.onCreate();
+  
+          Log.d(TAG, "onCreate() 호출됨.");
+      }
+  
+      @Override
+      // 인텐트 객체를 전달 받는 중요한 메소드, 시스템에 의해 자동으로 다시 시작된다.
+      public int onStartCommand(Intent intent, int flags, int startId) {
+          Log.d(TAG, "onStartCommand() 호출됨");
+  
+          // 인텐트 객체가 null 인지 먼저 체크
+          if (intent == null) {
+              // 이 값을 반환하면 서비스가 비정상 종료되었을 때 시스템이 자동으로 재시작한다.
+              return Service.START_STICKY;
+          } else {
+              // 코드를 너무 많이 넣으면 복잡하므로
+              // 메소드를 새롭게 정의한 후 호출한다.
+              processCommand(intent);
+          }
+  
+          return super.onStartCommand(intent, flags, startId);
+      }
+  
+      @Override
+      public void onDestroy() {
+          super.onDestroy();
+      }
+  
+      private void processCommand(Intent intent) {
+          String command = intent.getStringExtra("command");
+          String name = intent.getStringExtra("name");
+  
+          Log.d(TAG, "command : " + command + ", name : " + name );
+  
+          // 5초 동안 1초에 한 번씩 로그를 출력시킨다.
+          for (int i = 0; i < 5; i++) {
+              try {
+                  Thread.sleep(1000);
+              } catch (Exception e) { };
+  
+              Log.d(TAG, "Waiting " + i + " seconds.");
+          }
+  
+          // 인텐트 객체를 new 연산자로 생성
+          // 첫 번째 파라미터로 getApplicationContext() 메소드 호출하여 Context 객체 전달
+          // 두 번째 파라미터로 MainActivity.class 객체 전달
+          Intent showIntent = new Intent(getApplicationContext(), MainActivity.class);
+  
+          // 인텐트 객체에 Flags 추가
+          // 새로운 태스크를 생성하도록 FLAG_ACTIVITY_NEW_TASK 추가
+          // 객체가 이미 만들어져 있을 때 재사용하도록 FLAG_ACTIVITY_SINGLE_TOP 과
+          // FLAG_ACTIVITY_CLEAR_TOP 플래그 추가
+          showIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                  Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                  intent.FLAG_ACTIVITY_CLEAR_TOP);
+  
+          // 인텐트 객체에 부가 데이트 추가
+          showIntent.putExtra("command", "show");
+          showIntent.putExtra("name", name + " from service.");
+          startActivity(showIntent);
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![1547609612225](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547609612225.png)
+
+  <br>
+
+  **버튼 클릭시**
+
+  ![1547609656242](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547609656242.png)
+
+  <br>
+
+  **Logcat 화면**
+
+  ![1547609708881](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547609708881.png)
+
+<br>
+
+---
+
+<br>
+
+## 03-7. 브로드캐스트 수신자
+
+* **브로드캐스팅(Broadcating)** : 메시지를 여러 객체에게 전달하는 것. 안드로이드에서는 여러 애플리케이션 구성 요소에게 메시지를 전달하고 싶을 경우 브로드캐스팅을 사용한다(글로벌 이벤트). 브로드캐스팅 메시지를 받고 싶다면 **브로드캐스트 수신자(Broadcast Receiver)**를 만들어 등록하면 된다. 브로드캐스트 수신자를 만들게 되면 매니페스트 파일에 등록해야 한다.
+
+<br>
+
+### 예제(브로드캐스트 수신자로 SMS 문자 가져오기)
+
+* **AndroidManifest.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.example.samplereceiver">
+      <!-- SMS 수신할 때 필요한 권한 추가 -->
+      <uses-permission android:name="android.permission.RECEIVE_SMS" />
+  
+      <application
+          android:allowBackup="true"
+          android:icon="@mipmap/ic_launcher"
+          android:label="@string/app_name"
+          android:roundIcon="@mipmap/ic_launcher_round"
+          android:supportsRtl="true"
+          android:theme="@style/AppTheme">
+          <activity android:name=".SmsActivity"></activity>
+          
+          <!-- 브로드캐스트 리시버 추가 -->
+          <receiver
+              android:name=".SmsReceiver"
+              android:enabled="true"
+              android:exported="true">
+              <intent-filter>
+                  <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+              </intent-filter>
+          </receiver>
+          
+          <activity android:name=".MainActivity">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+          </activity>
+      </application>
+  
+  </manifest>
+  ```
+
+  
+
+* **SmsReceiver.java**
+
+  ```java
+  package com.example.samplereceiver;
+  
+  import android.content.BroadcastReceiver;
+  import android.content.Context;
+  import android.content.Intent;
+  import android.os.Build;
+  import android.os.Bundle;
+  import android.telephony.SmsMessage;
+  import android.util.Log;
+  
+  import java.text.SimpleDateFormat;
+  import java.util.Date;
+  
+  public class SmsReceiver extends BroadcastReceiver {
+      public static final String TAG = "SmsReceiver";
+      public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  
+      @Override
+      // SMS를 받으면 onReceive() 메소드가 자동으로 호출
+      // 파라미터로 전달되는 Intent 객체 안에 SMS 데이터가 들어 있다.
+      public void onReceive(Context context, Intent intent) {
+          // TODO: This method is called when the BroadcastReceiver is receiving
+          // an Intent broadcast.
+          Log.i(TAG, "onReceive() 메소드 호출됨.");
+  
+          // 인텐트 안에 들어 있는 SMS 메시지를 파싱한다.
+          // 인텐트 객체 안에 있는 Bundle 객체를 getExtras() 메소드로 참조한다.
+          Bundle bundle = intent.getExtras();
+  
+          // parseSmsMessage() 메소드로 SMS 메시지 객체를 만든다.
+          SmsMessage[] messages = parseSmsMessage(bundle);
+  
+          if (messages != null && messages.length > 0) {
+              // SMS 발신 번호 확인
+              // 발신자 번호를 확인하기 위해 getOriginaingAddress() 메소드 호출
+              String sender = messages[0].getOriginatingAddress();
+              Log.i(TAG, "SMS contents : " + sender);
+  
+              // SMS 메시지 확인
+              // 문자 내용을 확인하기 위해 getMessageBody() 메소드 호출
+              String contents = messages[0].getMessageBody();
+  
+              Log.i(TAG, "SMS contents : " + contents);
+  
+              // SMS 수신 기간 확인
+              // 문자를 받은 시각을 확인하기 위해 getTimestampMillis() 메소드 호출
+              Date receivedDate = new Date(messages[0].getTimestampMillis());
+  
+              Log.i(TAG, "SMS received date : " + receivedDate.toString());
+  
+              sendToActivity(context, sender, contents, receivedDate);
+          }
+      }
+  
+      // SmsActivity 로 인텐트를 보내기 위해 만든 메소드
+      private void sendToActivity(Context context, String sender, String contents,
+                                  Date receivedDate) {
+  
+          // 메시지를 보여줄 액티비티를 띄운다.
+          // Intent 객체를 만들 때 두 번째 파라미터로 SmsActivity.class 객체를
+          // 전달했으므로 startActivity() 메소드를 사용해 이 인텐트를
+          // 시스템으로 전달하면 시스템이 그 인텐트를 SmsActivity  쪽으로 전달한다.
+          Intent myIntent = new Intent(context, SmsActivity.class);
+  
+          // 플래그를 이용한다.
+          // 브로드캐스트 수신자는 화면이 없으므로 인텐트의 플래그로
+          // FLAG_ACTIVITY_NEW_TASK 를 추가해야 한다는 점을 잊지 말자!!
+          // 그리고 이미 메모리에 만든 SmsActivity 가 있을 때 추가로 만들지 않도록
+          // FLAG_ACTIVITY_SINGLE_TOP 플래그도 추가한다.
+          myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                  Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+  
+          myIntent.putExtra("sender", sender);
+          myIntent.putExtra("contents", contents);
+          myIntent.putExtra("receivedDate", format.format(receivedDate));
+  
+          context.startActivity(myIntent);
+      }
+  
+      // SMS 데이터를 확인할 수 있도록 만드는 안드로이드 API에 정해둔 코드
+      private SmsMessage[] parseSmsMessage(Bundle bundle) {
+          Object[] objs = (Object[]) bundle.get("pdus");
+          SmsMessage[] messages = new SmsMessage[objs.length];
+  
+          int smsCount = objs.length;
+          for (int i = 0; i < smsCount; i++) {
+              // PDU 포맷으로 되어 있는 메시지를 복원합니다.
+              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                  String format = bundle.getString("format");
+  
+                  // SMS 데이터를 확인하기 위해 SmsMessage 클래스의 createFromPdu() 메소드를 사용해
+                  // SmsMessage 객체로 변환 후 SMS 데이터를 확인할 수 있다.
+                  messages[i] = SmsMessage.createFromPdu((byte[]) objs[i], format);
+              } else {
+                  messages[i] = SmsMessage.createFromPdu((byte[]) objs[i]);
+              }
+          }
+  
+          return messages;
+      }
+  }
+  ```
+
+* **activity_sms.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".SmsActivity">
+  
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+  
+          <EditText
+              android:id="@+id/editText"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="20dp"
+              android:hint="발신번호" />
+  
+          <EditText
+              android:id="@+id/editText2"
+              android:layout_width="348dp"
+              android:layout_height="389dp"
+              android:layout_marginLeft="20dp"
+              android:layout_marginTop="10dp"
+              android:hint="내용" />
+  
+          <EditText
+              android:id="@+id/editText3"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="20dp"
+              android:layout_marginTop="10dp"
+              android:hint="수신시각" />
+  
+          <Button
+              android:id="@+id/button"
+              android:onClick="onButton1Clicked"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:text="확인" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **SmsActivity.java**
+
+  ```java
+  package com.example.samplereceiver;
+  
+  import android.content.Intent;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.Button;
+  import android.widget.EditText;
+  
+  public class SmsActivity extends AppCompatActivity {
+      EditText editText;
+      EditText editText2;
+      EditText editText3;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_sms);
+  
+          editText = (EditText)findViewById(R.id.editText);
+          editText2 = (EditText)findViewById(R.id.editText2);
+          editText3 = (EditText)findViewById(R.id.editText3);
+          Button button = (Button)findViewById(R.id.button);
+          button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  finish();
+              }
+          });
+  
+          Intent passedIntent = getIntent();
+          processIntent(passedIntent);
+      }
+  
+      @Override
+      // 이 액티비티가 이미 만들어져 있는 상태에서 전달 받은 인탠트 처리하기 위한 메소드
+      protected void onNewIntent(Intent intent) {
+          processIntent(intent);
+  
+          super.onNewIntent(intent);
+      }
+  
+      private void processIntent(Intent intent) {
+          if (intent != null) {
+              String sender = intent.getStringExtra("sender");
+              String contents = intent.getStringExtra("contents");
+              String receivedDate = intent.getStringExtra("receivedDate");
+  
+              editText.setText(sender);
+              editText2.setText(contents);
+              editText3.setText(receivedDate);
+          }
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![1547615127582](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547615127582.png)
+
+  **가상으로 문자를 보낸다.**
+
+  <br>
+
+  ![1547615169448](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547615169448.png)
+
+  >브로드 캐스트 수신자는 매니페스트 파일안에 \<receiver> 태그로 추가되어 있지만 매니페스트에 등록하지 않고 자바 소스 파일에서 registerReceiver() 메소드를 사용해 등록할 수도 있다. 만약 다른 브로드캐스트 수신자에게 메시지를 보내고 싶은 경우에는 sendBroadcast() 메소드를 사용할 수 있다.
+
+  ![1547615496685](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547615496685.png)
+
+  ​	
+
+  <br>
+
+---
+
+<br>
+
+## 03-8. 위험 권환 부여하기
+
+: 일반 권한과 위험 권한으로 나뉜다. 앱을 실행할 때 사용자로부터 권한을 부여받도록 변경 되었다.
+
+* **위험 권한의 세부 정보**
+
+  ![1547615880092](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1547615880092.png)
+
+<br>
+
+### 예제(SMS 위험권한 확인하기 및 권한 권한 부여 요청)
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.samplereceiver;
+  
+  import android.Manifest;
+  import android.app.Activity;
+  import android.content.pm.PackageManager;
+  import android.support.annotation.NonNull;
+  import android.support.v4.app.ActivityCompat;
+  import android.support.v4.content.ContextCompat;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.widget.Toast;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          // 권한이 이미 부여되어 있을 수도 있으므로 권한 확인 메소드 호출
+          int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
+  
+          // 권한이 부여 되어 있는지 확인함
+          if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+              Toast.makeText(this, "SMS 수신 권한 있음.", Toast.LENGTH_LONG).show();
+          } else {
+              Toast.makeText(this, "SMS 수신 권한 없음.", Toast.LENGTH_LONG).show();
+  
+              if (ActivityCompat.shouldShowRequestPermissionRationale(
+                      this, Manifest.permission.RECEIVE_SMS)) {
+                  Toast.makeText(this, "SMS 권한 설명 필요함.",
+                          Toast.LENGTH_LONG).show();
+              } else {
+                  // 사용자가 볼 수 있도록 새로운 권한 부여
+                  // 요청 대화 상자를 띄움
+                  ActivityCompat.requestPermissions(this,
+                          new String[] { Manifest.permission.RECEIVE_SMS}, 1);
+              }
+          }
+      }
+  
+      @Override
+      public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+          switch (requestCode) {
+              case 1: {
+                  if (grantResults.length > 0 &&
+                  grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                      Toast.makeText(this, "SMS 권한을 사용자가 승인함.",
+                              Toast.LENGTH_LONG).show();
+                  } else {
+                      Toast.makeText(this, "SMS 권한 거부됨.",
+                              Toast.LENGTH_LONG).show();
+                  }
+  
+                  return;
+              }
+          }
+      }
+  }
+  ```
+
+  

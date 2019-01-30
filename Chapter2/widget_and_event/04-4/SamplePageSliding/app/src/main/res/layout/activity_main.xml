@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- 첫 번째 레이아웃 : 바탕 레이아웃 -->
+    <LinearLayout
+        android:background="#ff5555ff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="#ffffffff"
+            android:text="Base Area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 두 번째 레이아웃 : 슬라이딩으로 보일 레이아웃 -->
+    <!-- visibility 속성 : 'gone'으로 설정하여 보이지 않도록 한다. -->
+    <LinearLayout
+        android:id="@+id/page"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        android:background="#ffffff66"
+        android:layout_width="200dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_weight="1"
+            android:textColor="#ff000000"
+            android:text="Area #1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:text="Area #2"
+            android:textColor="#ff000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 세 번째 레이아웃 : 버튼이 들어있는 레이아웃 -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="right|center_vertical"
+        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!-- [Open/Close] 버튼 -->
+        <Button
+            android:id="@+id/button"
+            android:text="Open"
+            android:onClick="onButton1Clicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -999,7 +999,7 @@ public class MainActivity extends AppCompatActivity {
 
 ## 04-3. 프로그레스바 사용하기
 
-### 프로그레스바(예제), 에러!!
+### 프로그레스바(예제)
 
 * **프로그레스바** : 작업의 진행 정도를 표시하거나 작업이 진행 중임을 사용자에게 알림.
 
@@ -1086,10 +1086,16 @@ public class MainActivity extends AppCompatActivity {
   import android.support.v7.app.AppCompatActivity;
   import android.os.Bundle;
   import android.view.View;
+  import android.view.WindowManager;
   import android.widget.Button;
+  import android.widget.LinearLayout;
   import android.widget.ProgressBar;
+  import android.widget.SeekBar;
+  import android.widget.TextView;
   
   public class MainActivity extends AppCompatActivity {
+      private int brightness = 100;   // 기본 밝기 값
+      TextView seekBarText;
       ProgressBar progressBar;
       ProgressDialog dialog;
   
@@ -1097,6 +1103,7 @@ public class MainActivity extends AppCompatActivity {
       protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
+  
   
           // 프로그레스바 객체를 참조하여 설정하기
           ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -1109,7 +1116,7 @@ public class MainActivity extends AppCompatActivity {
               @Override
               public void onClick(View v) {
                   // 프로그레스 대화상자 객체 만들고 설정하기
-                  dialog = new ProgressDialog(getApplicationContext());
+                  dialog = new ProgressDialog(MainActivity.this);
                   dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                   dialog.setMessage("데이터를 확인하는 중입니다.");
   
@@ -1127,8 +1134,56 @@ public class MainActivity extends AppCompatActivity {
                   }
               }
           });
+  
+  
+          seekBarText = (TextView) findViewById(R.id.seekBarText);
+  
+          Button button3 = (Button) findViewById(R.id.button3);
+          button3.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  LinearLayout seekBarPanel = (LinearLayout) findViewById(R.id.seekBarPanel);
+                  seekBarPanel.setVisibility(View.VISIBLE);
+              }
+          });
+  
+          SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+          // 시크바 값을 변경했을 때 처리할 리스너 설정하기
+          seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                  setBrightness(progress);
+                  seekBarText.setText(" 시크바의 값 : " + progress);
+              }
+  
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {
+  
+              }
+  
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {
+  
+              }
+          });
+      }
+  
+      private void setBrightness(int value) {
+          if(value < 10) {
+              value = 10;
+          } else if (value > 100) {
+              value = 100;
+          }
+  
+          brightness = value;
+  
+          // 화면 밝기 변경
+          WindowManager.LayoutParams params = getWindow().getAttributes();
+          params.screenBrightness = (float) value / 100;
+          getWindow().setAttributes(params);
       }
   }
+  
   ```
 
   
@@ -1136,3 +1191,448 @@ public class MainActivity extends AppCompatActivity {
 ### 시크바(예제)
 
 * **시크바(SeekBar)** : 프로그레스바를 확장하여 만든 것, 프로그레스바의 속성을 갖고 있으면서 사용자가 값을 조정할 수 있게한다.
+
+* **seek_bar.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+  
+      <!-- 시크바가 들어 있는 레이아웃 -->
+      <LinearLayout
+          android:id="@+id/seekBarPanel"
+          android:layout_width="88dp"
+          android:layout_height="51dp"
+          android:orientation="vertical"
+          android:visibility="gone"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          >
+  
+          <!-- 시크바 정의 -->
+          <SeekBar
+              android:id="@+id/seekBar"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:max="100"
+              android:progress="100" />
+  
+          <TextView
+              android:id="@+id/seekBarText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="100"
+              android:textSize="20dp" />
+  
+      </LinearLayout>
+  
+      <Button
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/seekBarPanel"
+          android:id="@+id/button3"
+          android:textSize="20dp"
+          android:text="시크바 보여주기"
+          android:textStyle="bold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.sampleprogress;
+  
+  import android.app.ProgressDialog;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.WindowManager;
+  import android.widget.Button;
+  import android.widget.LinearLayout;
+  import android.widget.ProgressBar;
+  import android.widget.SeekBar;
+  import android.widget.TextView;
+  
+  public class MainActivity extends AppCompatActivity {
+      private int brightness = 100;   // 기본 밝기 값
+      TextView seekBarText;
+      ProgressBar progressBar;
+      ProgressDialog dialog;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.seek_bar);
+  
+          seekBarText = (TextView) findViewById(R.id.seekBarText);
+  
+          Button button3 = (Button) findViewById(R.id.button3);
+          button3.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  LinearLayout seekBarPanel = (LinearLayout) findViewById(R.id.seekBarPanel);
+                  seekBarPanel.setVisibility(View.VISIBLE);
+              }
+          });
+  
+          SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+          // 시크바 값을 변경했을 때 처리할 리스너 설정하기
+          seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                  setBrightness(progress);
+                  seekBarText.setText(" 시크바의 값 : " + progress);
+              }
+  
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {
+  
+              }
+  
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {
+  
+              }
+          });
+      }
+  
+      private void setBrightness(int value) {
+          if(value < 10) {
+              value = 10;
+          } else if (value > 100) {
+              value = 100;
+          }
+  
+          brightness = value;
+  
+          // 화면 밝기 변경
+          WindowManager.LayoutParams params = getWindow().getAttributes();
+          params.screenBrightness = (float) value / 100;
+          getWindow().setAttributes(params);
+      }
+  }
+  
+  ```
+
+  
+
+## 04-4. 간단한 애니메이션 사용하기
+
+* **트윈 애니메이션(Tweened Animation) 방법** : 이동, 확대/축소, 회전과 같이 일정한 패턴을 가지고 움직이는 애니매이션을 구현할 때 사용.
+
+* 애니메이션이 어떻게 동작하도록 할것인지를 정의한 정보는 XML로 만든다.
+
+  ![1548822186012](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548822186012.png)
+
+* **/res/anim/flow.xml(애니메이션 파일)**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <set xmlns:android="http://schemas.android.com/apk/res/android">
+      <!-- 위치 이동을 위한 애니메이션 액션 정의 -->
+      <!-- fromXDelta : X축 어디서부터 이동할 것인지 -->
+      <!-- toXDelta : X축 어디까지 이동할 것인지 -->
+      <!-- 100% ~ 0% : 뷰의 오른쪽 끝 지점에서 왼쪽 끝지점까지 이동-->
+      <!-- duration : 애니메이션이 지속되는 시간 -->
+      <!-- alpha 태그 : 투명도 변경 -->
+      <translate
+          android:fromXDelta="100%p"
+          android:toXDelta="0%p"
+          android:duration="6000"
+          android:repeatCount="3"
+          />
+  
+      <!-- 투명도 변경을 위한 애니메이션 액션 정의 -->
+      <alpha
+          android:fromAlpha="0.5"
+          android:toAlpha="1"
+          android:repeatCount="3"
+          />
+  </set>
+  ```
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.samplebuttonanimation;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.animation.Animation;
+  import android.view.animation.AnimationUtils;
+  import android.widget.Button;
+  import android.widget.TextView;
+  import android.widget.Toast;
+  
+  public class MainActivity extends AppCompatActivity {
+      TextView textView;
+      Animation flowAnim;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          textView = (TextView) findViewById(R.id.textView);
+          // 애니메이션 객체 로딩
+          flowAnim = AnimationUtils.loadAnimation(this, R.anim.flow);
+          // 애니메이션 리스너 설정하여 종료되는 시점 확인.
+          flowAnim.setAnimationListener(new Animation.AnimationListener() {
+              @Override
+              public void onAnimationStart(Animation animation) {
+  
+              }
+  
+              @Override
+              public void onAnimationEnd(Animation animation) {
+                  Toast.makeText(getApplicationContext(),
+                          "애니메이션 종료됨.",
+                          Toast.LENGTH_LONG).show();
+              }
+  
+              @Override
+              public void onAnimationRepeat(Animation animation) {
+  
+              }
+          });
+      }
+  
+      // 텍스트뷰에 애니메이션 적용
+      public void onButton1Clicked(View v){
+          textView.startAnimation(flowAnim);
+      }
+  }
+  ```
+
+* **실행결과**
+
+  ![1548823670993](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548823670993.png)
+
+  ![1548823683301](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548823683301.png)
+
+  ![1548823697854](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548823697854.png)
+
+
+
+## 04-5. 페이지 슬라이딩 사용하기
+
+**페이지 슬라이딩** : 버튼 등을 눌렀을 때 보이지 않던 뷰가 슬라이딩 방식으로 보이는 것으로 여러 뷰를 하나씩 전환하면서 보여주는 방식에 애니메이션을 결합한 것이다.
+
+* **activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <!-- 첫 번째 레이아웃 : 바탕 레이아웃 -->
+      <LinearLayout
+          android:background="#ff5555ff"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+          <TextView
+              android:textColor="#ffffffff"
+              android:text="Base Area"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+      </LinearLayout>
+  
+      <!-- 두 번째 레이아웃 : 슬라이딩으로 보일 레이아웃 -->
+      <!-- visibility 속성 : 'gone'으로 설정하여 보이지 않도록 한다. -->
+      <LinearLayout
+          android:id="@+id/page"
+          android:orientation="vertical"
+          android:layout_gravity="right"
+          android:visibility="gone"
+          android:background="#ffffff66"
+          android:layout_width="200dp"
+          android:layout_height="match_parent">
+          <TextView
+              android:layout_weight="1"
+              android:textColor="#ff000000"
+              android:text="Area #1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+          <TextView
+              android:layout_weight="1"
+              android:text="Area #2"
+              android:textColor="#ff000000"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+      </LinearLayout>
+  
+      <!-- 세 번째 레이아웃 : 버튼이 들어있는 레이아웃 -->
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_gravity="right|center_vertical"
+          android:background="#00000000"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+          <!-- [Open/Close] 버튼 -->
+          <Button
+              android:id="@+id/button"
+              android:text="Open"
+              android:onClick="onButton1Clicked"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+      </LinearLayout>
+  
+  </FrameLayout>
+  ```
+
+* **translate_right.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <set xmlns:android="http://schemas.android.com/apk/res/android"
+      android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+      <translate
+          android:fromXDelta="0%p"
+          android:toXDelta="100%p"
+          android:duration="500"
+          android:repeatCount="0"
+          android:fillAfter="true"
+          />
+  </set>
+  ```
+
+* **translate_left.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <set xmlns:android="http://schemas.android.com/apk/res/android"
+      android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+      <translate
+          android:fromXDelta="100%p"
+          android:toXDelta="0%p"
+          android:duration="500"
+          android:repeatCount="0"
+          android:fillAfter="true"
+          />
+  </set>
+  ```
+
+* **MainActivity.java**
+
+  ```java
+  package com.example.samplepagesliding;
+  
+  import android.annotation.SuppressLint;
+  import android.support.annotation.Nullable;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.animation.Animation;
+  import android.view.animation.AnimationUtils;
+  import android.widget.Button;
+  import android.widget.LinearLayout;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      // 슬라이딩 페이지가 보이는지 여부
+      boolean isPageOpen = false;
+  
+      // 왼쪽으로 이동 애니메이션 객체
+      Animation translateLeftAnim;
+      // 오른쪽으로 이동 애니메이션 객체
+      Animation translateRightAnim;
+  
+      // 슬라이딩으로 보여줄 페이지
+      LinearLayout page;
+      Button button;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+  
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+          button = (Button) findViewById(R.id.button);
+  
+          page = (LinearLayout) findViewById(R.id.page);
+  
+          // 애니메이션 객체 참조
+          translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
+          translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
+  
+          // 슬라이딩 애니메이션을 감시할 리스너
+          SlidingPageAnimationListener animListener = new SlidingPageAnimationListener();
+          translateLeftAnim.setAnimationListener(animListener);
+          translateRightAnim.setAnimationListener(animListener);
+      }
+  
+      public void onButton1Clicked(View v) {
+          // 페이지가 열려 있으면 오른쪽으로 애니메이션
+          if (isPageOpen) {
+              page.startAnimation(translateRightAnim);
+          }
+          // 페이지가 닫혀 있으면 보이도록 한 후 왼쪽으로 애니메이션
+          else {
+              page.setVisibility(View.VISIBLE);
+              page.startAnimation(translateLeftAnim);
+          }
+      }
+  
+      private class SlidingPageAnimationListener implements Animation.AnimationListener {
+  
+          @Override
+          public void onAnimationStart(Animation animation) {
+  
+          }
+  
+          @SuppressLint("SetTextI18n")
+          @Override
+          public void onAnimationEnd(Animation animation) {
+              // 페이지가 열려 있으면 안보이도록 하고
+              // 버튼의 텍스트로 'Open'으로 변경
+              if(isPageOpen) {
+                  page.setVisibility(View.INVISIBLE);
+  
+                  button.setText("Open");
+                  isPageOpen = false;
+              }
+              // 페이지가 닫혀 있으면 버튼의 텍스트를 'Close'로 변경
+              else {
+                  button.setText("Close");
+                  isPageOpen = true;
+              }
+          }
+  
+          @Override
+          public void onAnimationRepeat(Animation animation) {
+  
+          }
+      }
+  }
+  ```
+
+
+
+## 04-6. 프래그먼트
+
+: 전체 화면 안에 부분 화면을 만들어 넣으면 자주 화면이 전환되는 불편함이 없어지고 넓은 화면을 잘 활용할 수 있게 된다.
+
+### 프래그먼트에 대해 이해하기
+
+: 부분 화면을 만든다는 것은 전체 화면을 위해 만든 레이아웃 안에 또 다른 레이아웃을 넣는 것이다. 이를 위해서 **프레임 레이아웃** 안에 여러 개의 레이아웃을 넣어 중첩시킨 후 가시성 속성으로 필요한 레이아웃만 보여줄 수 있게 만든다.
+
+ 하나의 화면을 여러 부분으로 나누어 보여주거나 각각의 부분 화면 단위로 바꾸어 보여주고 싶은 경우에 사용하는 것이 **프래그먼트(Fragment)**이다.
+
+* **프래그먼트 사용 목적**
+  * 분할된 화면들을 독립적으로 구성하기 위해 사용함
+  * 분할된 화면들의 상태를 관리하기 위해 사용함
+
+ 프래그먼트는 **항상 액티비티 위에 올라가 있어야 한다**는 점을 기억해야 한다.
+
+* **프래그먼트 동작 방식**
+
+  ![1548827746259](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548827746259.png)

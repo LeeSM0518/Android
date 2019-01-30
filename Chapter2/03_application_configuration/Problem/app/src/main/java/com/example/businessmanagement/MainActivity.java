@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private String savedId = "nalsm98";
     private String savedPassword = "1234";
     private String inputId;
-    private String privatePW;
     private String inputPassword;
     private EditText idText;
     private EditText passwordText;
@@ -31,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginButton = (Button)findViewById(R.id.loginBtn);
-        idText = (EditText)findViewById(R.id.idEditText);
-        passwordText = (EditText)findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginBtn);
+        idText = findViewById(R.id.idEditText);
+        passwordText = findViewById(R.id.passwordEditText);
     }
 
+    // request 코드 수정
     // 오버라이드한 후 메소드명과 매개변수를 모두 쳐야 오버라이딩이 됨을 알 수 있다.
     @Override
     protected void onActivityResult(int requestCode, int resultCode,

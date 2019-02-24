@@ -78,6 +78,17 @@
 
 #### 03-5. 액티비티의 수명주기
 
+* **예제(액티비티의 수명주기 확인)**
+  * [메인 화면 java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleLifeCycle/app/src/main/java/com/example/samplelifecycle/MainActivity.java)
+  * [메뉴 화면 java](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleLifeCycle/app/src/main/java/com/example/samplelifecycle/MenuActivity.java)
+  * [메인 화면 xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleLifeCycle/app/src/main/res/layout/activity_main.xml)
+  * [메뉴 화면 xml](https://github.com/LeeSM0518/Android/blob/master/Chapter2/03_application_configuration/03_Intent/SampleLifeCycle/app/src/main/res/layout/activity_menu.xml)
+
+#### 03-6. 서비스
+
+* **예제(서비스로부터 전달 받은 인텐트를 액티비티에서 처리)**
+  * 
+
 <br>
 
 

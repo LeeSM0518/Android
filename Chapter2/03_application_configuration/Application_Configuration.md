@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
   * **LayoutInflater 클래스** : 시스템 서비스로 제공되는 클래스로써, 시스템 서비스는 단말이 시작되면서 항상 실행되는 서비스이다. 단말이 시작되면 단말 안에서 실행되는 기능들을 포함하고 있다.
 
     ```java
-    // 다음과 같은 코드를 이용하여 LayoutInflater 객체르 참조한 후 사용가능
+    // 다음과 같은 코드를 이용하여 LayoutInflater 객체를 참조한 후 사용가능
     getSystemService(Context.LAYOUT_INFLATER_SERVICE)
     ```
 
@@ -1483,7 +1483,7 @@ public class MainActivity extends AppCompatActivity {
       }
   
       // 만약 MainActivity 가 메모리에 만들어져 있다면
-      // onNewIntent() 메소드로 전달묀다.
+      // onNewIntent() 메소드로 전달된다.
       protected void onNewIntent(Intent intent) {
           // processIntent() 메소드를 만들고 그 안에서 객체 처리
           processIntent(intent);
@@ -1573,6 +1573,7 @@ public class MainActivity extends AppCompatActivity {
           super.onDestroy();
       }
   
+      // 진행
       private void processCommand(Intent intent) {
           String command = intent.getStringExtra("command");
           String name = intent.getStringExtra("name");
@@ -1738,9 +1739,7 @@ public class MainActivity extends AppCompatActivity {
       }
   
       // SmsActivity 로 인텐트를 보내기 위해 만든 메소드
-      private void sendToActivity(Context context, String sender, String contents,
-                                  Date receivedDate) {
-  
+      private void sendToActivity(Context context, String sender, String contents, Date receivedDate) {
           // 메시지를 보여줄 액티비티를 띄운다.
           // Intent 객체를 만들 때 두 번째 파라미터로 SmsActivity.class 객체를
           // 전달했으므로 startActivity() 메소드를 사용해 이 인텐트를

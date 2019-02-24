@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 위치 이동을 위한 애니메이션 액션 정의 -->
+    <!-- fromXDelta : X축 어디서부터 이동할 것인지 -->
+    <!-- toXDelta : X축 어디까지 이동할 것인지 -->
+    <!-- 100% ~ 0% : 뷰의 오른쪽 끝 지점에서 왼쪽 끝지점까지 이동-->
+    <!-- duration : 애니메이션이 지속되는 시간 -->
+    <!-- alpha 태그 : 투명도 변경 -->
+    <translate
+        android:fromXDelta="100%p"
+        android:toXDelta="0%p"
+        android:duration="6000"
+        android:repeatCount="3"
+        />
+
+    <!-- 투명도 변경을 위한 애니메이션 액션 정의 -->
+    <alpha
+        android:fromAlpha="0.5"
+        android:toAlpha="1"
+        android:repeatCount="3"
+        />
+</set>

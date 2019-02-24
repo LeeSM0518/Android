@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-### 제츠서 이벤트 처리하기(예제)
+### 제스처 이벤트 처리하기(예제)
 
 **MainActivity.java**
 
@@ -1183,7 +1183,6 @@ public class MainActivity extends AppCompatActivity {
           getWindow().setAttributes(params);
       }
   }
-  
   ```
 
   
@@ -1636,3 +1635,869 @@ public class MainActivity extends AppCompatActivity {
 * **프래그먼트 동작 방식**
 
   ![1548827746259](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1548827746259.png)
+
+  * **왼쪽 동작 방식** : 액티비티가 동작하는 방식이다. 액티비티를 관리하는 시스템의 모듈은 액티비티 매니저이며, 이 액티비티 매니저에 의해 액티비티가 독립적으로 동작할 수 있다.
+  * **오른쪽 동작 방식** : 프래그먼트 매니저라는 것을 만들어 프래그먼트들을 관리하도록 되어있다. 액티비티와 프래그먼트 간에 데이터를 전달할 때는 단순히 메소드를 만들고 메소드를 호출하는 방식을 사용한다.
+
+
+
+### 프래그먼트를 화면에 추가하는 방법 이해하기
+
+* **프래그먼트 사용하는 목적** : 분할된 화면을 독립적으로 사용하기 위한 것이다.
+
+* **예시**
+
+  XML 레이아웃 파일(/res/layout/fragment_main.xml)
+
+  ```xml
+  ...
+  <TextView>
+      android:layout_width="wrap_content"
+      android:layoit_height="wrap_content"
+      android:text="Hello world!"
+  </TextView>
+  ...
+  ```
+
+  자바 소스 파일(MainFragment.java)
+
+  ```java
+  ...
+      class MainFragment extends Fragment {
+          ...
+              public View onCreateView(...) {
+              ...
+              inflater.inflate(...);	// xml 파일 인플레이션
+          }
+      }
+  ...
+  ```
+
+  프래그먼트 추가 파일
+
+  ```xml
+  <fragment
+            android:id="@+id/fragment"
+            android:name="org.androidtown.fragment.MainFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+  ```
+
+  > 먼저 프래그먼트를 위한 XML 레이아웃을 만든다.
+  >
+  > /res/layout 폴더 안에 XML 레이아웃 파일인 fragment_main.xml을 만들고 화면을 정의한다.
+  >
+  > 그 다음에는 프래그먼트를 위한 자바 소스를 만든다. 프래그먼트는 Fragment 클래스를 상속할 수 있다.
+
+* **프래그먼트 클래스의 주요 메소드들**
+
+  ```java
+  // 이 프래그먼트를 포함하는 액티비티를 리턴한다.
+  public final Activity getActivity()
+  
+  // 이 프래그먼트를 포함하는 액티비티에서 프래그먼트 객체들과 의사소통하는 프래그먼트 매니저를 리턴한다.
+  public final FragmentManager getFragmentManager()
+      
+  // 이 프래그먼트를 포함하는 부모가 프래그먼트일 경우 리턴함. 액티비티이면 null을 리턴
+  public final Fragment getParentFragment()
+      
+  // 이 프래그먼트의 ID를 리턴함
+  public final int getId()    
+  ```
+
+  > 프래그먼트 클래스를 XML 레이아웃 파일의 내용을 자바 소스 파일과 매칭하기 위해 XML 레이아웃 파일의 내용을 인플레이션한 후 onCreateView() 메소드 안에 넣는다. 따라서 인플레이션을 위한 inflate() 메소드를 호출하면 되고 인플레이션 과정이 끝나면 프래그먼트가 하나의 뷰처럼 동작할 수 있는 상태가 된다.
+
+* **프래그먼트 매니저(FragmentManager) 주요 메소드**
+
+  ```java
+  // 프래그먼트를 변경하기 위한 트랜젝션을 시작함.
+  public abstract FragmentTransaction beginTransaction()
+      
+  // ID를 이용해 프래그먼트 객체를 찾음
+  public abstract Fragment findFragmentById (int id)
+      
+  // 태그 정보를 사용해 프래그먼트 객체를 찾음
+  public abstract Fragment findFragmentByTag (String tag)
+  
+  // 트랜젝션은 commit() 메소드를 호출하면 실행되지만 비동기(asynchronous) 방식으로 실행되므로 즉시 실행하고 싶다면 이 메소드를 추가로 호출해야 한다.
+  public abstract boolean executePedingTransactions()
+  ```
+
+  > 메인 화면을 위해 만들어진 activity_main.xml 파일에 직접 \<fragment> 라는 태그를 이용해 프래그먼트를 추가할 수도 있고, 새로 정의한 프래그먼트 클래스의 인스턴스 객체를 new 연산자를 이용해 만들어준 후 **FragmentManager 객체의 add() 메소드**를 이용해 액티비티에 추가할 수도 있다.
+
+* **프래그먼트의 대표적인 특성**
+
+  | 특성          | 설명                                                         |
+  | ------------- | ------------------------------------------------------------ |
+  | 뷰 특성       | 뷰그룹에 추가되거나 레이아웃의 일부가 될 수 있음<br />(뷰에서 상속받은 것은 아니며 뷰를 담고 있는 일종의 틀임) |
+  | 액티비티 특성 | 액티비티처럼 수명주기(Lifecycle) 가지고 있음<br />(context 객체는 아니며 라이프사이클은 액티비티에 종속됨) |
+
+* **미리 정의된 몇가지 프래그먼트 클래스**
+
+  * **DialogFragment** : 액티비티의 수명주기에 의해 관리되는 대화상자
+  * **ListFragment** : 데이터를 리스트뷰 형태로 보여줄 수 있도록 하며 ListActivity 클래스와 비슷하다.
+
+
+
+### 프래그먼트 만들어 화면에 추가하기(예제)
+
+* **/res/layout/fragment_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <TextView
+              android:text="메인 프래그먼트"
+              android:textSize="30dp"
+              android:id="@+id/textView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <Button
+              android:id="@+id/button"
+              android:text="메뉴 화면으로"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/MainFragment.java**
+
+  ```java
+  package com.example.samplefragment;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  
+  public class MainFragment extends Fragment {
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  
+          // inflate() 메소드로 전달되는 첫 번째 파라미터는 XML 레이아웃 파일이고
+          // 두 번째 파라미터는 이 XML 레이아웃이 설정될 뷰그룹 객체이므로
+          // container 객체를 전달한다.
+          // inflate() 메소드를 호출하여 반환된 ViewGroup 객체 또한 이 프래그먼트의
+          // 가장 상위 레이아웃인데 인플레이션된 상태로 반환되므로
+          // 이 객체를 return 키워드로 리턴한다.
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main,
+                  container, false);
+          return rootView;
+      }
+  }
+  ```
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <RelativeLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:id="@+id/container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <fragment
+          android:id="@+id/mainFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:name="com.example.samplefragment.MainFragment"
+          />
+  
+  </RelativeLayout>
+  ```
+
+* **/java/MainActivity.java**
+
+  ```java
+  package com.example.samplefragment;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+      }
+  }
+  ```
+
+  > **액티비티 메인 화면 위에 프래그먼트 화면이 올라가 있는것을 알 수 있다.**
+
+* **실행 결과**
+
+  ![1549959973339](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1549959973339.png)
+
+
+
+### 버튼 클릭했을 때 코드에서 프래그먼트 추가하기(예제)
+
+* **프래그먼트 사용하는 과정**
+
+  1. 프래그먼트를 위한 XML 레이아웃 만들기
+  2. 프래그먼트 클래스 만들기
+  3. 액티비티를 XML 레이아웃에 추가하기
+
+* **자바 소스 코드를 사용해 XML 레이아웃에 추가하는 방법**
+
+  1. XML 레이아웃에 추가하는 방법
+  2. 자바 소스 코드로 추가하는 방법
+
+* **예제**
+
+  **/res/layout/fragment_menu.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:background="@color/colorPrimary"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <TextView
+              android:text="메뉴 프래그먼트"
+              android:textSize="30dp"
+              android:id="@+id/textView2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <Button
+              android:id="@+id/button2"
+              android:text="메인 화면으로"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/java/MenuFragment.java**
+
+  ```java
+  package com.example.samplefragment;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  
+  public class MenuFragment extends Fragment {
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  
+          // inflate() 메소드로 전달되는 첫 번째 파라미터의 값이
+          // R.layout.fragment_menu 이다. 그래서 MenuFragment 클래스에는
+          // fragment_menu.xml 파일의 내용이 인플레이션되어 설정된다.
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_menu,
+                  container, false);
+          return rootView;
+      }
+  }
+  ```
+
+  **/res/layout/fragment_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <TextView
+              android:text="메인 프래그먼트"
+              android:textSize="30dp"
+              android:id="@+id/textView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <Button
+              android:id="@+id/button"
+              android:text="메뉴 화면으로"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/java/MainFragment.java**
+
+  ```java
+  package com.example.samplefragment;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.Button;
+  
+  public class MainFragment extends Fragment {
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  
+          // inflate() 메소드로 전달되는 첫 번째 파라미터는 XML 레이아웃 파일이고
+          // 두 번째 파라미터는 이 XML 레이아웃이 설정될 뷰그룹 객체이므로
+          // container 객체를 전달한다.
+          // inflate() 메소드를 호출하여 반환된 ViewGroup 객체 또한 이 프래그먼트의
+          // 가장 상위 레이아웃인데 인플레이션된 상태로 반환되므로
+          // 이 객체를 return 키워드로 리턴한다.
+          // 이 프래그먼트의 가장 상위 레이아웃은 인플레이션을 통해 참조한 rootView 객체이다.
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main,
+                  container, false);
+  
+          Button button = (Button) rootView.findViewById(R.id.button);
+          button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  MainActivity activity = (MainActivity) getActivity();
+                  activity.onFragmentChanged(0);
+              }
+          });
+  
+          return rootView;
+      }
+  }
+  ```
+
+  **/java/MainActivity.java**
+
+  ```java
+  package com.example.samplefragment;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  
+  public class MainActivity extends AppCompatActivity {
+      MainFragment mainFragment;
+      MenuFragment menuFragment;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          mainFragment = (MainFragment)
+              getSupportFragmentManager().findFragmentById(R.id.mainFragment);
+          menuFragment = new MenuFragment();
+      }
+  
+      // 프래그먼트 매니저는 프래그먼트를 다루는 작업을 해 주는 객체로
+      // 프래그먼트를 추가, 삭제 또는 교체 등의 작업을 할 수 있게 해준다.
+      // 그런데 이런 작업들은 프래그먼트를 변경할 때
+      // 오류가 생기면 다시 원상태로 돌릴 수 있어야 하므로
+      // 트랜잭션 객체를 만들어 실행한다.
+      public void onFragmentChanged(int index) {
+          if (index == 0) {
+              // 트랜잭션 객체는 beginTransaction() 메소드를
+              // 호출하면 시작되고 commit() 메소드를 호출하면 실행된다.
+              getSupportFragmentManager().beginTransaction()
+                      .replace(R.id.container, menuFragment).commit();
+  
+          } else if (index == 1) {
+              getSupportFragmentManager().beginTransaction()
+                      .replace(R.id.container, mainFragment).commit();
+  
+          }
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![1549963597998](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1549963597998.png)
+
+  
+
+* **액티비티와 프래그먼트가 의사소통하는 방식**
+
+  ![1549963565628](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1549963565628.png)
+
+
+
+### 프래그먼트의 수명주기
+
+: 프래그먼트는 액티비티를 본떠 만들면서 액티비티처럼 독립적으로 동작하도록 **수명주기(Life Cycle) 메소드**를 추가했습니다. 따라서 상태에 따라 콜백 함수가 호출되므로 그 안에 필요한 기능을 넣을 수 있다. 즉, 액티비티 안에 들어 있는 프래그먼트도 필요에 따라 화면에 보이거나 보이지 않게 되므로 액티비티 처럼 각각의 상태가 관리되는 것이 필요하다.
+
+* **화면에 보이기 전에 호출되는 상태 메소드**
+
+  | 메소드                                          | 설명                                                         |
+  | ----------------------------------------------- | ------------------------------------------------------------ |
+  | onAttach(Activity)                              | 프래그먼트가 액티비티와 연결될 때 호출됨.                    |
+  | onCreate(Bundle)                                | 프래그먼트가 초기화될 때 호출됨.<br />(new 연산자를 이용해 새로운 프래그먼트 객체를 만드는 시점이 아니라는 점에 주의해야 함.) |
+  | onCreateView(LayoutInflator, ViewGroup, Bundle) | 프래그먼트와 관련되는 뷰 계층을 만들어서 리턴함.             |
+  | onActivityCreated(Bundle)                       | 프래그먼트와 연결된 액티비티가 onCreate() 메소드의 작업을 완료했을 때 호출됨. |
+  | onStart()                                       | 프래그먼트와 연결된 액티비티가 onStart()되어 사용자에게 프래그먼트가 보일 때 호출됨. |
+  | onResume()                                      | 프래그먼트와 연결된 액티비티가 onResume()되어 사용자와 상호작용할 수 있을 때 호출됨. |
+
+  > 가장 먼저 **onAttach() 메소드**가 호출되면서 액티비티에 프래그먼트가 추가되면 그 다음에 **onCreate() 메소드**가 호출. onAttach() 메소드는 액티비티를 위해 설정해야 하는 정보들을 처리한다. **onCreateView() 메소드**는 프래그먼트와 관련되는 뷰들의 계층도를 구성하는 과정에서 호출. 액티비티의 onCreate() 메소드는**onActivityCreated()** 메소드와 동일하다.
+
+* **중지되면서 호출되는 상태 메소드**
+
+  | 메소드          | 설명                                                         |
+  | --------------- | ------------------------------------------------------------ |
+  | onPause()       | 프래그먼트와 연결된 액티비티가 onPause()되어 사용자와 상호작용을 중지할 때 호출됨. |
+  | onStop()        | 프래그먼트와 연결된 액티비티가 onStop()되어 화면에서 더 이상 보이지 않을 때나 프래그먼트의 기능이 중지되었을 때 호출됨. |
+  | onDestroyView() | 프래그먼트와 관련된 뷰 리소스를 해제할 수 있도록 호출됨.     |
+  | onDestroy()     | 프래그먼트의 상태를 마지막으로 정리할 수 있도록 호출됨.      |
+  | onDetach()      | 프래그먼트가 액티비티와 연결을 끊기 바로 전에 호출됨.        |
+
+  * **onPause() == onStop(), 동일한 상태 메소드**
+  * **onDetach() 와 onAttach() 는 정반대**
+
+* **프래그먼트 수명주기**
+
+  ![1551007993516](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551007993516.png)
+
+  > **Fragment Start** : 액티비티에 프래그먼트 추가
+  >
+  > **Fragment Is Running** : 프래그먼트 활성화(액티비티 화면에 보이는 상태)
+  >
+  > **Fragment End** : 액티비티에서 프래그먼트 제거
+
+  * **주의할 점**
+
+    : 액티비티 위에 프래그먼트가 올라가기 전까지는 프래그먼트로 동작하지 않는다는 점
+
+    ```java
+    // 프래그먼트 객체는 만들어졌지만 프래그먼트로 동작하지는 않음.
+    MyFragment fragment = new MyFragment();
+    // 액티비티에 추가된 후 프래그먼트로 동작함.
+    getSupportFragmentManager().beginTransaction().add(fragment).commit();
+    ```
+
+
+
+### 두 개의 프래그먼트로 구성된 이미지 뷰어 만들기(예제)
+
+* **/res/layout/fragment_list.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <ListView
+              android:id="@+id/listView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  
+          </ListView>
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551012063177](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551012063177.png)
+
+* **/java/com~/ListFragment.java**
+
+  ```java
+  package com.example.samplefragment2;
+  
+  import android.content.Context;
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.AdapterView;
+  import android.widget.ArrayAdapter;
+  import android.widget.ListView;
+  
+  import com.example.samplefragment2.R;
+  
+  // Fragment 클래스 상속
+  public class ListFragment extends Fragment {
+      // ArrayAdapter 를 리스트뷰의 setAdapter() 메소드로 설정하면
+      // 그 안에 들어 있는 각각의 데이터가 리스트뷰의 각 줄에 보이게 된다.
+      String[] values = {"첫 번째 이미지", "두 번째 이미지", "세 번째 이미지"};
+  
+      // 프래그먼트에 올라간 액티비티가 다른 액티비티로 변경될 때 마다
+      // 해당 액티비티가 무엇인지 확인하기 위해 인터페이스를 구현
+      public static interface ImageSelectionCallback {
+          // 선택된 값으로 다른 프래그먼트의 이미지를 바꿔주기위해
+          // 액티비티 쪽으로 데이터를 전달하기 위한 메소드 정의
+          public void onImageSelected(int position);
+      }
+  
+      public ImageSelectionCallback callback;
+  
+      @Override
+      public void onAttach(Context context) {
+          super.onAttach(context);
+  
+          // 이 프래그먼트가 어떤 액티비티에 올라갔는지를 알 수 있는
+          // onAttach() 메소드에 MainActivity 객체를 참조한 후
+          // callback 변수에 할당
+          if (context instanceof ImageSelectionCallback) {
+              callback = (ImageSelectionCallback) context;
+          }
+      }
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+          // fragment_list.xml 파일 인플레이션
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_list,
+                  container, false);
+          ListView listView = (ListView) rootView.findViewById(R.id.listView);
+          ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                  android.R.layout.simple_list_item_1, values);
+          listView.setAdapter(adapter);
+  
+          // 리스트뷰의 한 아이템을 선택했을 때 어떤 아이템을 선택했는지
+          // 알아낸 후 처리
+          listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  // position : 몇 번째 아이템이 클릭된 것인지
+                  if(callback != null) {
+                      callback.onImageSelected(position);
+                  }
+              }
+          });
+  
+          return rootView;
+      }
+  }
+  ```
+
+* **/res/layout/fragment_viewer.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <ImageView
+              android:id="@+id/imageView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/ViewerFragment.java**
+
+  ```java
+  package com.example.samplefragment2;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.ImageView;
+  
+  public class ViewerFragment extends Fragment {
+      ImageView imageView;
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+          // 인플레이션
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_viewer,
+                  container, false);
+  
+          // 이미지뷰 객체를 찾아 imageView 변수에 할당
+          imageView = (ImageView) rootView.findViewById(R.id.imageView);
+  
+          return rootView;
+      }
+  
+      // 액티비티에서 이 프래그먼트에 있는 이미지뷰에 이미지를 설정할 수 있도록 한다.
+      public void setImage(int resId) {
+          imageView.setImageResource(resId);
+      }
+  }
+  ```
+
+* **/res/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <fragment
+              android:id="@+id/listFragment"
+              android:layout_weight="1"
+              android:name="com.example.samplefragment2.ListFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
+  
+          <fragment
+              android:id="@+id/viewerFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:name="com.example.samplefragment2.ViewerFragment"
+              />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551012195012](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551012195012.png)
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.samplefragment2;
+  
+  import android.os.PersistableBundle;
+  import android.support.v4.app.Fragment;
+  import android.support.v4.app.FragmentManager;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  
+  // MainActivity 는 ImageSelectionCallback 인터페이스를 구현하도록 만들고
+  // 이 인터페이스에 정의된 onImageSelected() 메소드도 구현한다.
+  public class MainActivity extends AppCompatActivity implements ListFragment.ImageSelectionCallback {
+  
+      ListFragment listFragment;
+      ViewerFragment viewerFragment;
+  
+      int[] images = {R.drawable.dream01, R.drawable.dream02, R.drawable.dream03};
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          FragmentManager manager = getSupportFragmentManager();
+  
+          // 두 개의 프래그먼트를 찾아 변수에 할당한다
+          listFragment = (ListFragment) manager.findFragmentById(R.id.listFragment);
+          viewerFragment = (ViewerFragment) manager.findFragmentById(R.id.viewerFragment);
+      }
+  
+  
+      @Override
+      // onImageSelected() 메소드는 리스트 프래그먼트에서 호출하게 되며
+      // onImageSelected() 메소드가 호출되면 뷰어 프래그먼트의 setImage() 메소드를 호출하여
+      // 이미지가 바뀌도록 한다.
+      public void onImageSelected(int position) {
+          viewerFragment.setImage(images[position]);
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![1551012247455](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551012247455.png)
+
+
+
+## 04-7. 액션바와 탭 사용하기
+
+### 화면에 메뉴 기능 넣기
+
+* **메뉴**
+
+  * **옵션 메뉴(Option Menu)** : 시스템 [메뉴] 버튼을 눌렀을 때 숨어있던 메뉴가 보인다.
+  * **컨텍스트 메뉴(Context Menu)** : 입력상자를 길게 눌렀을 때 '복사하기', '붙여넣기' 등의 팝업 형태의 메뉴가 뜨는 것
+
+* **옵션 메뉴와 컨텍스트 메뉴 설정 메소드**
+
+  : 두 메소드를 다시 정의하기만 하면 매우 쉽게 메뉴를 추가할 수 있다.
+
+  ```java
+  boolean onCreateOptionMenu (Menu menu)
+  void onCreateContextMenu (ContextMenu menu, View v,
+                           ContextMenu.ContextMenuInfo menuInfo)
+  ```
+
+* **메뉴 아이템 추가하는 메소드들**
+
+  ```java
+  MenuItem add (int groupId, int itemId, int order, CharSequence title)
+  MenuItem add (int groupId, int itemId, int order, int titleRes)
+  
+  // 아이템이 많아서 서브 메뉴로 추가하고 싶을 때
+  SubMenu addSubMenu (int titleRes)
+  ```
+
+  > **파라미터**
+  >
+  > **groupId** : 아이템을 하나의 그룹으로 묶을 때 사용
+  >
+  > **itemId** : 아이템이 갖는 고유 ID 값, 아이템이 선택되었을 때 각각의 아이템을 구분할 때 사용할 수 있다.
+
+* **예제(옵션 메뉴 추가하기)**
+
+  **/res/menu/menu_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+  
+      <item
+          android:id="@+id/menu_refresh"
+          android:title="새로고침"
+          android:icon="@drawable/menu_refresh"
+          app:showAsAction="always"
+          />
+  
+      <item
+          android:id="@+id/menu_search"
+          android:title="검색"
+          android:icon="@drawable/menu_search"
+          app:showAsAction="always"
+          />
+  
+      <item
+          android:id="@+id/menu_settings"
+          android:title="설정"
+          android:icon="@drawable/menu_settings"
+          app:showAsAction="always"
+          />
+  
+  </menu>
+  ```
+
+  | showAsAction 속성 값 | 설 명                                                        |
+  | -------------------- | ------------------------------------------------------------ |
+  | always               | 항상 액션바에 아이템을 추가하여 표시합니다.                  |
+  | never                | 액션바에 아이템을 추가하여 표시하지 않습니다.(디폴트 값)     |
+  | ifRoom               | 액션바에 여유 공간이 있을 때만 아이템을 표시합니다.          |
+  | withText             | title 속성으로 설정된 제목을 같이 표시합니다.                |
+  | collapseActionView   | 아이템에 설정한 뷰(actionViewLayout으로 설정한 뷰)의 아이콘만 표시합니다. |
+
+  ![1551014322747](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551014322747.png)
+
+  **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.sampleoptionmenu;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.Menu;
+  import android.view.MenuItem;
+  import android.widget.Toast;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+      }
+  
+      @Override
+      // 액티비티가 만들어질 때 미리 자동 호출되어 화면에 메뉴 기능을 추가할 수 있도록 한다.
+      public boolean onCreateOptionsMenu(Menu menu) {
+          getMenuInflater().inflate(R.menu.menu_main, menu);
+          return true;
+      }
+  
+      // 화면이 처음 만들어질 때 메뉴를 정해 놓는 것이 아니라 화면이 띄워지고
+      // 나서 메뉴를 바꾸고 싶다면 onPrepareOptionMenu() 메소드를 다시 정의하여 사용해야 한다.
+  
+      @Override
+      // 사용자가 하나의 메뉴 아이템을 선택했을 대 자동 호출되는 메소드 오버라이딩
+      // 현재 메뉴 아이템의 id 값이 무엇인지 확인하여 그에 맞는 기능을 하도록 만든다.
+      public boolean onOptionsItemSelected(MenuItem item) {
+          int curId = item.getItemId();
+          switch (curId) {
+              case R.id.menu_refresh:
+                  Toast.makeText(this, "새로고침 메뉴가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                  break;
+              case R.id.menu_search:
+                  Toast.makeText(this, "검색 메뉴가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                  break;
+              case R.id.menu_settings:
+                  Toast.makeText(this, "설정 메뉴가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                  break;
+              default:
+                  break;
+          }
+  
+          return super.onOptionsItemSelected(item);
+      }
+  }
+  ```
+
+  **실행 결과**
+
+  ![1551014593897](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551014593897.png)
+
+  > **컨텍스트 메뉴를 특정 뷰에 등록하고 싶은 경우**
+  >
+  > : registerForContextMenu() 메소드 재정의
+

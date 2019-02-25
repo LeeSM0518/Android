@@ -2501,3 +2501,19 @@ public class MainActivity extends AppCompatActivity {
   >
   > : registerForContextMenu() 메소드 재정의
 
+
+
+### 액션바 좀 더 살펴보기
+
+: 액션바는 기본적으로 제목을 보여주는 타이틀의 기능을 한다.
+
+* **액션바 메소드**
+
+  ```java
+  ActionBar abar = getActionBar();
+  abar.show();			// 액션바 보이기
+  abar.hide();			// 액션바 감추기
+  abar.setSubtitle()		// 부제목 달아주기
+  ```
+
+  

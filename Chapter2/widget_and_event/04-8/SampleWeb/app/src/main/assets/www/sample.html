@@ -1,0 +1,23 @@
+<html>
+    <!-- 자바스크립트 함수 정의한 것으로 애플리케이션에서 호출할 대상 -->
+    <script language="javaScript">
+        function changeFace() {
+            document.getElementById("face").src="face_angry.png";
+        }
+    </script>
+    <!-- 웹페이지에서 보이는 그림을 눌렀을 때 clickOnFace() 메소드 호출 -->
+    <body>
+        <a onclick="window.sample.clickOnFace()">
+            <div style="width:120px;
+                 margin:0px auto;
+                 padding:10dp;
+                 text-align:center;
+                 border:2px solid #202020;"
+                 >
+                <!-- 웹페이지의 이미지 ID를 'face'로 지정 -->
+                <img id="face" src="face_normal.png"/>
+                <br>
+            </div>
+        </a>
+    </body>
+</html>

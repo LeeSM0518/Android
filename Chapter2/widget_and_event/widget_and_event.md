@@ -2364,7 +2364,7 @@ public class MainActivity extends AppCompatActivity {
 
 ## 04-7. 액션바와 탭 사용하기
 
-### 화면에 메뉴 기능 넣기
+### 화면에 메뉴 기능 넣기(예제)
 
 * **메뉴**
 
@@ -2503,7 +2503,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-### 액션바 좀 더 살펴보기
+### 액션바 좀 더 살펴보기(예제, 오류)
 
 : 액션바는 기본적으로 제목을 보여주는 타이틀의 기능을 한다.
 
@@ -2514,6 +2514,556 @@ public class MainActivity extends AppCompatActivity {
   abar.show();			// 액션바 보이기
   abar.hide();			// 액션바 감추기
   abar.setSubtitle()		// 부제목 달아주기
+  ```
+
+* **예제(SampleActionBar01, 오류!!, 액션바 추가하기)**
+
+  
+
+  | 디스플레이 옵션 상수 | 설 명                                                    |
+  | -------------------- | -------------------------------------------------------- |
+  | DISPLAY_USE_LOGO     | 홈 아이콘 부분에 로고 아이콘을 사용합니다.               |
+  | DISPLAY_SHOW_HOME    | 홈 아이콘을 표시하도록 합니다.                           |
+  | DISPLAY_HOME_AS_UP   | 홈 아이콘에 뒤로 가기 모양의 < 아이콘을 같이 표시합니다. |
+  | DISPLAY_SHOW_TITLE   | 타이틀을 표시하도록 합니다.                              |
+
+  > 액션바의 디스플레이 옵션으로 설정할 수 있는 상수들
+
+
+
+### 탭으로 보여주기(예제)
+
+: 때로는 하나의 화면에 여러 가지 구성 요소를 넣어두고 필요에 따라 전환하여 보여주는 것이 좋은 경우가 있는데 대표적인 것이 서브 화면들이다.
+
+* **탭(Tab)** : 하나의 뷰에서 여러 개의 정보를 보고자 할 때 일반적으로 사용하는 뷰
+
+* **탭 위젯의 구성요소**
+
+  ![1551072517074](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551072517074.png)
+
+  * **탭 호스트(TabHost)** : 탭 위젯 전체. 크게 상단의 탭 위젯과 하단의 프레임 레이아웃으로 구성된다.
+  * **탭 위젯(TabWidget)** : 각각의 서브 화면을 선택할 수 있는 탭들이 추가되어 있다.
+  * **프레임 레이아웃(Frame Layout)**
+
+* **예제(탭에 선택에 따른 프래그먼트 화면 전환)**
+
+  **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <!-- 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할 -->
+          <android.support.design.widget.CoordinatorLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+  
+              <!-- CoordinatorLayout과 AppBarLayout(액션바)를 같이 사용하면 다른 레이아웃 들이 간격이나 위치가 자동으로 결정된다 -->
+              <!-- 탭 위젯 -->
+              <android.support.design.widget.AppBarLayout
+                  android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+  
+  
+                  <android.support.v7.widget.Toolbar
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@color/colorPrimaryDark"
+                      android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                      android:elevation="1dp"
+                      android:id="@+id/toolbar"
+                      >
+  
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/titleText"
+                          android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                          android:text="타이틀"
+                          />
+  
+                  </android.support.v7.widget.Toolbar>
+  
+                  <!-- 탭의 버튼들이 들어갈 수 있는 레이아웃 -->
+                  <!-- tabMode, tabGravity 를 fill 로 설정하여 탭 버튼들이 동일한 크기를 갖도록 한다. -->
+                  <android.support.design.widget.TabLayout
+                      android:id="@+id/tabs"
+                      app:tabMode="fixed"
+                      app:tabGravity="fill"
+                      app:tabTextColor="@color/colorPrimary"
+                      app:tabSelectedTextColor="@color/colorAccent"
+                      android:elevation="1dp"
+                      android:background="@android:color/background_light"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+  
+              </android.support.design.widget.AppBarLayout>
+  
+              <!-- 탭 콘텐츠 -->
+              <!-- 프래그먼트를 넣어 줄 위치 -->
+                  <FrameLayout
+                      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                      android:id="@+id/container"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                  </FrameLayout>
+  
+          </android.support.design.widget.CoordinatorLayout>
+  
+      </RelativeLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/res/values/styles.xml**
+
+  ```xml
+  <resources>
+  
+      <!-- Base application theme. -->
+      <!-- NoActionBat 로 수정 -->
+      <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+          <!-- Customize your theme here. -->
+          <item name="colorPrimary">@color/colorPrimary</item>
+          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+          <item name="colorAccent">@color/colorAccent</item>
+      </style>
+  
+  </resources>
+  ```
+
+  **/res/layout/fragment1.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:background="@color/design_default_color_primary_dark"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <Button
+              android:id="@+id/button1"
+              android:text="첫번째"
+              android:textSize="30dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/res/layout/fragment2.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:background="@color/colorPrimary"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <Button
+              android:id="@+id/button2"
+              android:text="두번째"
+              android:textSize="30dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/res/layout/fragment3.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:background="@color/colorAccent"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <Button
+              android:id="@+id/button3"
+              android:text="세번째"
+              android:textSize="30dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  **/java/com~/Fragment1.java**
+
+  ```java
+  package com.example.sampletab;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  
+  public class Fragment1 extends Fragment {
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment1,
+                  container, false);
+          return rootView;
+      }
+  }
+  ```
+
+  **/java/com~/Fragment2.java**
+
+  ```java
+  package com.example.sampletab;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  
+  public class Fragment2 extends Fragment {
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment2,
+                  container, false);
+          return rootView;
+      }
+  }
+  ```
+
+  **/java/com~/Fragment3.java**
+
+  ```java
+  package com.example.sampletab;
+  
+  import android.os.Bundle;
+  import android.support.annotation.NonNull;
+  import android.support.annotation.Nullable;
+  import android.support.v4.app.Fragment;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  
+  public class Fragment3 extends Fragment {
+  
+      @Nullable
+      @Override
+      public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+          ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment3,
+                  container, false);
+          return rootView;
+      }
+  }
+  ```
+
+  **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.sampletab;
+  
+  import android.support.design.widget.TabLayout;
+  import android.support.v4.app.Fragment;
+  import android.support.v7.app.ActionBar;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.util.Log;
+  import android.support.v7.widget.Toolbar;
+  
+  public class MainActivity extends AppCompatActivity {
+      Toolbar toolbar;
+  
+      Fragment1 fragment1;
+      Fragment2 fragment2;
+      Fragment3 fragment3;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          toolbar = (Toolbar) findViewById(R.id.toolbar);
+          setSupportActionBar(toolbar);
+  
+          ActionBar actionBar = getSupportActionBar();
+          actionBar.setDisplayShowTitleEnabled(false);
+  
+          fragment1 = new Fragment1();
+          fragment2 = new Fragment2();
+          fragment3 = new Fragment3();
+  
+          getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
+  
+          TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+  
+          // addTab() 메소드로 탭 버튼을 추가한다.
+          tabs.addTab(tabs.newTab().setText("통화기록"));
+          tabs.addTab(tabs.newTab().setText("스팸기록"));
+          tabs.addTab(tabs.newTab().setText("연락처"));
+  
+          tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+              @Override
+              // 탭 버튼이 선택될 때마다 호출되는 리스너
+              public void onTabSelected(TabLayout.Tab tab) {
+                  int position = tab.getPosition();
+                  Log.d("MainActivity", "선택된 탭: " + position);
+  
+                  Fragment selected = null;
+                  // position 정보를 확인한 후 처리
+                  if (position == 0) {
+                      selected = fragment1;
+                  } else if (position == 1) {
+                      selected = fragment2;
+                  } else if (position == 2) {
+                      selected = fragment3;
+                  }
+  
+                  // container 라는 id를 가진 FrameLayout 안에 각각의 탭 버튼에
+                  // 해당하는 프래그먼트 화면이 보이도록 한다.
+                  getSupportFragmentManager().beginTransaction().replace(
+                          R.id.container, selected
+                  ).commit();
+              }
+  
+              @Override
+              public void onTabUnselected(TabLayout.Tab tab) {
+  
+              }
+  
+              @Override
+              public void onTabReselected(TabLayout.Tab tab) {
+  
+              }
+          });
+      }
+  
+  }
+  ```
+
+  **실행 결과**
+
+  ![1551077532465](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551077532465.png)
+
+  ![1551077549185](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551077549185.png)
+
+  ![1551077561927](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551077561927.png)
+
+
+
+## 04-8. 웹브라우저 사용하기
+
+: 웹브라우저를 앱 안에 넣고 싶은 경우에는 **웹뷰(WebView)**를 사용하면 되는데 XML 레이아웃에서는 **\<WebView>** 태그로 정의합니다. 그리고 항상 매니페스트에 인터넷 접속 권한이 등록되어 있어야 합니다.
+
+* **매니페스트에 인터넷 접속 권한 등록**
+
+  ```xml
+  <uses-permission android:name="android.permission.INTERNET" />
+  ```
+
+* **웹뷰의 설정 정보**
+
+  * **WebSettings** 객체로 설정한다.
+  * **getSetings()** 메소드를 사용해 참조할 수 있으며 '캐시 여부', '폰트 크기 설정', '화면 확대 여부', '스크립트 허용 여부' 등을 설정할 수 있다.
+  * 자바스크립트를 허용하기 위해서는 **setJavaScriptEnabled(true)**로 설정해야 한다.
+  * 웹페이지를 로딩하여 화면에 보여주기 위해서는 **loadUrl() 메소드**를 사용한다.
+  * **goForward()나 goBack() 메소드**를 이용하면 앞 페이지 또는 뒤 페이지로도 이동할 수 있다.
+
+
+
+#### 예제(앱의 화면 안에 웹뷰를 넣어보기, 에러!!)
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+      android:orientation="vertical"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <LinearLayout
+          android:id="@+id/layout"
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <!-- 웹페이지를 열기 위한 버튼 정의 -->
+          <Button
+              android:id="@+id/loadButton"
+              android:text=" 열기 "
+              android:padding="4dp"
+              android:textSize="20dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <!-- 웹페이지 URL 입력상자 정의 -->
+          <EditText
+              android:id="@+id/urlInput"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+          
+      </LinearLayout>
+  
+      <!-- 웹뷰 정의 -->
+      <WebView
+          android:id="@+id/webView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+      </WebView>
+  
+  </LinearLayout>
+  ```
+
+  **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.sampleweb;
+  
+  import android.os.Handler;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.webkit.JavascriptInterface;
+  import android.webkit.JsResult;
+  import android.webkit.WebChromeClient;
+  import android.webkit.WebSettings;
+  import android.webkit.WebView;
+  import android.widget.Button;
+  import android.widget.EditText;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      private WebView webView;
+      private Handler handler = new Handler();
+      private Button loadButton;
+      private EditText urlInput;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          loadButton = (Button) findViewById(R.id.loadButton);
+          urlInput = (EditText) findViewById(R.id.urlInput);
+          webView = (WebView) findViewById(R.id.webView);     // 웹뷰 객체 참조
+  
+          // 웹뷰에 WebSettings 설정
+          WebSettings webSettings = webView.getSettings();
+          // 웹뷰에 자바스크립트가 동작할 수 있는 환경 조성
+          webSettings.setJavaScriptEnabled(true);
+  
+          // 웹뷰에 클라이언트 객체 지정
+          webView.setWebChromeClient(new WebChromeClient());
+          // 웹뷰에 자바스크립트 인터페이스 객체 지정
+          webView.addJavascriptInterface(new JavaScriptMethods(), "sample");
+          // 웹뷰에 샘플 페이지 로딩
+          webView.loadUrl("file:///android_asset/www/sample.html");
+  
+          loadButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  // 사용자가 직접 입력한 일반 웹페이지 로딩
+                  webView.loadUrl(urlInput.getText().toString());
+              }
+          });
+      }
+  
+      final class JavaScriptMethods {
+          JavaScriptMethods(){}
+  
+          // 애플리케이션에서 정의한 메소드로 웹페이지에서 호출할 대상
+          @android.webkit.JavascriptInterface
+          public void clickOnFace() {
+              handler.post(new Runnable() {   // 핸들러로 처리
+                  @Override
+                  public void run() {
+                      // 애플리케이션 화면의 버튼 글자 변경
+                      loadButton.setText("클릭 후 열기");
+                      // 웹페이지의 자바스크립트 함수 호출
+                      webView.loadUrl("javascript:changeFace()");
+                  }
+              });
+          }
+      }
+  
+      // 웹브라우저 클라이언트 클래스 정의
+      final class WebBrowserClient extends WebChromeClient {
+          public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+              result.confirm();
+  
+              return true;
+          }
+      }
+  }
+  ```
+
+  **/assets/www/sample.html**
+
+  ```html
+  <html>
+      <!-- 자바스크립트 함수 정의한 것으로 애플리케이션에서 호출할 대상 -->
+      <script language="javaScript">
+          function changeFace() {
+              document.getElementById("face").src="face_angry.png";
+          }
+      </script>
+      <!-- 웹페이지에서 보이는 그림을 눌렀을 때 clickOnFace() 메소드 호출 -->
+      <body>
+          <a onclick="window.sample.clickOnFace()">
+              <div style="width:120px;
+                   margin:0px auto;
+                   padding:10dp;
+                   text-align:center;
+                   border:2px solid #202020;"
+                   >
+                  <!-- 웹페이지의 이미지 ID를 'face'로 지정 -->
+                  <img id="face" src="face_normal.png"/>
+                  <br>
+              </div>
+          </a>
+      </body>
+  </html>
   ```
 
   

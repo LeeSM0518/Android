@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할 -->
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <!-- CoordinatorLayout과 AppBarLayout(액션바)를 같이 사용하면 다른 레이아웃 들이 간격이나 위치가 자동으로 결정된다 -->
+            <!-- 탭 위젯 -->
+            <android.support.design.widget.AppBarLayout
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    android:elevation="1dp"
+                    android:id="@+id/toolbar"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/titleText"
+                        android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                        android:text="타이틀"
+                        />
+
+                </android.support.v7.widget.Toolbar>
+
+                <!-- 탭의 버튼들이 들어갈 수 있는 레이아웃 -->
+                <!-- tabMode, tabGravity 를 fill 로 설정하여 탭 버튼들이 동일한 크기를 갖도록 한다. -->
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    app:tabTextColor="@color/colorPrimary"
+                    app:tabSelectedTextColor="@color/colorAccent"
+                    android:elevation="1dp"
+                    android:background="@android:color/background_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <!-- 탭 콘텐츠 -->
+            <!-- 프래그먼트를 넣어 줄 위치 -->
+                <FrameLayout
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </FrameLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

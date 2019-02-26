@@ -3066,4 +3066,133 @@ public class MainActivity extends AppCompatActivity {
   </html>
   ```
 
+
+
+
+## 04-9. 키패드 설정하기
+
+: 예를 들어, 로그인 화면에서 [로그인] 버튼을 눌러 성공적으로 로그인되었을 때 열려있는 소프트 키패드를 닫히도록 한다. 이럴때 필요한 키패드와 관련된 기능은 **InputMethodManager 객체**를 사용해야 사용할 수 있다. 이 객체는 시스템 서비스이므로 **getSystemService()** 메소드로 참조한 후 다음과 메소드를 사용해야 한다.
+
+```java
+boolean showSoftInput(View view, int flags)
+boolean hideSoftInputFromWindow(IBinder windowToken, int flags[, ResultReceiver resultReceiver])
+```
+
+ 그리고 입력상자에 입력될 문자열의 종류인 **inputType** 속성을 설정한다.
+
+
+
+#### 예제(inputType 속성으로 키패드를 다르게 띄움)
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <TextView
+              android:text="inputType: text|textCapWords"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+  
+          <EditText
+              android:padding="10dp"
+              android:textSize="18dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="text|textCapWords"
+              />
+  
+          <TextView
+              android:text="inputType: number|numberSigned|numberDecimal"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+  
+          <EditText
+              android:padding="10dp"
+              android:textSize="18dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="number|numberSigned|numberDecimal"
+              />
+  
+          <TextView
+              android:text="inputType: textEmailAddress"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+  
+          <EditText
+              android:padding="10dp"
+              android:textSize="18dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="textEmailAddress"
+              />
+  
+          <TextView
+              android:text="inputType: textPassword"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+  
+          <EditText
+              android:padding="10dp"
+              android:textSize="18dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="textPassword"
+              />
+  
+          <TextView
+              android:text="inputType: phone"
+              android:textSize="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+  
+          <EditText
+              android:padding="10dp"
+              android:textSize="18dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="phone"
+              />
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **실행 결과**
+
+  ![1551186859511](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551186859511.png)
+
+
+
+* **inputType 속성**
+
+  | inputType 속성 값 | 설 명           |
+  | ----------------- | --------------- |
+  | number            | 숫자            |
+  | numberSigned      | 0보다 큰 숫자   |
+  | numberDecimal     | 정수            |
+  | text              | 텍스트          |
+  | textPassword      | 패스워드로 표시 |
+  | textEmailAddress  | 이메일로 표시   |
+  | phone             | 전화번호로 표시 |
+  | time              | 시간            |
+  | date              | 날짜            |
+
   

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
 
         // 웹뷰에 클라이언트 객체 지정
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebBrowserClient());
         // 웹뷰에 자바스크립트 인터페이스 객체 지정
         webView.addJavascriptInterface(new JavaScriptMethods(), "sample");
         // 웹뷰에 샘플 페이지 로딩

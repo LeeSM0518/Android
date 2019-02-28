@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-### 키 이벤트 처리하기(예제)
+### 키 이벤트 처리하기
 
 * **키 입력 이벤트 처리 메소드**
 

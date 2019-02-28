@@ -3195,4 +3195,659 @@ boolean hideSoftInputFromWindow(IBinder windowToken, int flags[, ResultReceiver 
   | time              | 시간            |
   | date              | 날짜            |
 
+
+
+
+## 확인 문제
+
+### 메인 화면
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
   
+      <Button
+          android:id="@+id/signUpButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="200dp"
+          android:layout_marginEnd="8dp"
+          android:text="회원 가입"
+          android:textSize="30dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.498"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <Button
+          android:id="@+id/webButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:text="웹브라우저"
+          android:textSize="30dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
+  
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551333817457](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551333817457.png)
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.problem;
+  
+  import android.content.Intent;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.webkit.WebView;
+  import android.widget.Button;
+  
+  public class MainActivity extends AppCompatActivity {
+      Button signUpButton;
+      Button webButton;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          signUpButton = findViewById(R.id.signUpButton);
+          webButton = findViewById(R.id.webButton);
+  
+          // 회원가입 액티비티로 이동
+          signUpButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                  startActivity(intent);
+              }
+          });
+  
+          // 웹브라우저 액티비티로 이동
+          webButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(getApplicationContext(), WebActivity.class);
+                  startActivity(intent);
+              }
+          });
+      }
+  }
+  ```
+
+
+
+### 고객 정보 입력 화면
+
+* **/res/layout/activity_sign_up.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".SignUpActivity">
+  
+      <TextView
+          android:id="@+id/nameTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="180dp"
+          android:layout_marginEnd="8dp"
+          android:text="이    름"
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.187"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <EditText
+          android:id="@+id/nameEditText"
+          android:layout_width="200dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="180dp"
+          android:layout_marginEnd="8dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.491"
+          app:layout_constraintStart_toEndOf="@+id/nameTextView"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <TextView
+          android:id="@+id/ageTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="12dp"
+          android:layout_marginEnd="8dp"
+          android:text="나    이"
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.187"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+  
+      <EditText
+          android:id="@+id/ageEditText"
+          android:layout_width="200dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.491"
+          app:layout_constraintStart_toEndOf="@+id/nameTextView"
+          app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+  
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="48dp"
+          android:layout_marginEnd="8dp"
+          android:text="생년월일"
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.198"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/ageTextView" />
+  
+      <TextView
+          android:id="@+id/birthTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="344dp"
+          android:layout_marginEnd="8dp"
+          android:text=" 2019년 2월 00일 "
+          android:textSize="30dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.497"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <Button
+          android:id="@+id/saveButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="396dp"
+          android:layout_marginEnd="8dp"
+          android:text=" 저 장 "
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.498"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551333922391](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551333922391.png)
+
+* **dialog_birth.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:gravity="center_horizontal"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+  
+              <EditText
+                  android:id="@+id/yearEditText"
+                  android:hint="2019"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+              <TextView
+                  android:text="년"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+              <EditText
+                  android:id="@+id/monthEditText"
+                  android:hint="02"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+              <TextView
+                  android:text="월"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+              <EditText
+                  android:id="@+id/dayEditText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:hint="27"
+                  android:textSize="25dp" />
+  
+              <TextView
+                  android:text="일"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+          </LinearLayout>
+  
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              tools:layout_editor_absoluteX="0dp"
+              tools:layout_editor_absoluteY="0dp">
+  
+              <Button
+                  android:id="@+id/settingButton"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="설정"
+                  android:textSize="25dp" />
+  
+              <Button
+                  android:id="@+id/cancelButton"
+                  android:text="취소"
+                  android:textSize="25dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+  
+          </LinearLayout>
+  
+      </LinearLayout>
+  
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551333980408](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551333980408.png)
+
+* **/java/com~/SignUpActivity.java**
+
+  ```java
+  package com.example.problem;
+  
+  import android.content.DialogInterface;
+  import android.support.v7.app.AlertDialog;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.LayoutInflater;
+  import android.view.MotionEvent;
+  import android.view.View;
+  import android.widget.Button;
+  import android.widget.EditText;
+  import android.widget.TextView;
+  import android.widget.Toast;
+  
+  import org.w3c.dom.Text;
+  
+  import java.text.SimpleDateFormat;
+  import java.util.Date;
+  
+  public class SignUpActivity extends AppCompatActivity {
+      EditText nameEditText;
+      EditText ageEditText;
+      TextView birthTextView;
+      Button saveButton;
+  
+      EditText yearEditText;
+      EditText monthEditText;
+      EditText dayEditText;
+  
+      // 현재 날짜를 받기 위한 객체 생성
+      Date now = new Date();
+      // 형식에 맞게 날짜 데이터 저장
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_sign_up);
+  
+          // xml 객체를 Java로 불러옴
+          nameEditText = findViewById(R.id.nameEditText);
+          ageEditText = findViewById(R.id.ageEditText);
+          birthTextView = findViewById(R.id.birthTextView);
+          saveButton = findViewById(R.id.saveButton);
+          yearEditText = findViewById(R.id.yearEditText);
+          monthEditText = findViewById(R.id.monthEditText);
+          dayEditText = findViewById(R.id.dayEditText);
+  
+          // 생년월일 데이터를 현재 날짜로 저장
+          birthTextView.setText(sdf.format(now));
+  
+          // 생년월일 텍스트를 터치 했을 때 처리하는 이벤트
+          birthTextView.setOnTouchListener(new View.OnTouchListener() {
+              @Override
+              public boolean onTouch(View v, MotionEvent event) {
+                  int action = event.getAction();
+  
+                  // 손가락이 눌렸을 때
+                  if (action == MotionEvent.ACTION_DOWN) {
+                      showBirthBox();
+                  }
+  
+                  return true;
+              }
+          });
+  
+          // 버튼 이벤트 처리
+          saveButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  // 토스트로 이름, 나이, 생년월일을 출력시켜 준다.
+                  Toast.makeText(getApplicationContext(), "이름 : " + nameEditText.getText().toString() +
+                          "\n나이 : " + ageEditText.getText().toString() + "\n생년월일 : " + birthTextView.getText().toString()
+                          , Toast.LENGTH_SHORT ).show();
+              }
+          });
+      }
+  
+      // 대화상자를 보여주는 메소드
+      private void showBirthBox() {
+          // 대화상자 객체 생성
+          final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+          // 레이아웃을 inflate 시켜주기 위해 inflater 객체 생성
+          LayoutInflater inflater = getLayoutInflater();
+          // view 에 dialog_birth 라는 xml 을 인플레이트 시켜준다.
+          View view = inflater.inflate(R.layout.dialog_birth, null);
+          // 대화상자의 제목을 지정
+          builder.setTitle("생년월일");
+          // 대화상자에 view 객체를 올린다.
+          builder.setView(view);
+  
+          // 버튼과 입력상자들의 객체를 참조시킨다.
+          final Button setting = (Button) view.findViewById(R.id.settingButton);
+          final Button cancel = view.findViewById(R.id.cancelButton);
+          final EditText yearEditText = view.findViewById(R.id.yearEditText);
+          final EditText monthEditText = view.findViewById(R.id.monthEditText);
+          final EditText dayEditText = view.findViewById(R.id.dayEditText);
+  
+          // 대화상자를 만들어준다.
+          final AlertDialog dialog = builder.create();
+          // 대화상자를 보여준다.
+          dialog.show();
+  
+          // 설정 버튼을 눌렀을 때의 이벤트 처리
+          setting.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  // 입력상자들의 값을 가져와서 생년월일에 저장시킨다.
+                  birthTextView.setText(yearEditText.getText().toString() + "년 " + monthEditText.getText().toString() + "월 " + dayEditText.getText().toString() + "일");
+                  // 대화상자를 없애준다.
+                  dialog.dismiss();
+              }
+          });
+  
+          // 취소 버튼을 눌렀을 때의 이벤트 처리
+          cancel.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  dialog.dismiss();
+              }
+          });
+  
+      }
+  }
+  ```
+
+  ![1551334037631](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551334037631.png)
+
+
+
+### 웹브라우저 화면
+
+* **/res/layout/activity_web.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".WebActivity">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+              <Button
+                  android:layout_gravity="center_horizontal"
+                  android:id="@+id/urlOpenCloseButton"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="열기"
+                  android:textSize="25dp" />
+  
+              <LinearLayout
+                  android:id="@+id/urlPage"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginTop="8dp"
+                  android:layout_marginEnd="8dp"
+                  android:visibility="gone"
+                  android:gravity="top"
+                  android:orientation="horizontal">
+  
+                  <EditText
+                      android:id="@+id/urlEditText"
+                      android:layout_width="300dp"
+                      android:layout_height="wrap_content"
+                      android:hint="http://"
+                      android:textSize="25dp" />
+  
+                  <Button
+                      android:id="@+id/urlConnectButton"
+                      android:text=" 이동 "
+                      android:textSize="25dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+  
+              </LinearLayout>
+  
+              <WebView
+                  android:id="@+id/activity_main_webview"
+                  android:fadingEdge="none"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+              </WebView>
+  
+          </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+  ![1551334131076](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551334131076.png)
+
+* **/res/anim/translate_down.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <set xmlns:android="http://schemas.android.com/apk/res/android">
+      <translate
+          android:fromYDelta="-10%p"
+          android:toYDelta="0%p"
+          android:duration="500"
+          android:repeatCount="0"
+          android:fillAfter="true"
+          />
+  
+  </set>
+  ```
+
+* **/res/anim/translate_up.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <set xmlns:android="http://schemas.android.com/apk/res/android">
+      <translate
+          android:fromYDelta="0%p"
+          android:toYDelta="0%p"
+          android:duration="500"
+          android:repeatCount="0"
+          android:fillAfter="true"
+          />
+  
+  </set>
+  ```
+
+* **/java/com~/WebActivity.java**
+
+  ```java
+  package com.example.problem;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.animation.Animation;
+  import android.view.animation.AnimationUtils;
+  import android.webkit.WebSettings;
+  import android.webkit.WebView;
+  import android.webkit.WebViewClient;
+  import android.widget.Button;
+  import android.widget.EditText;
+  import android.widget.LinearLayout;
+  
+  public class WebActivity extends AppCompatActivity {
+      // WebView 변수 선언과 url 을 visibility 옵션을 위한 변수 선언
+      boolean isPageOpen = false;
+      private WebView webView;
+  
+      // 애니메이션을 위한 변수 선언
+      Animation translateDownAnim;
+      Animation translateUpAnim;
+  
+      // 레이아웃과 버튼, 입력상자 변수 선언
+      LinearLayout urlPage;
+      Button urlButton;
+      Button urlConnectButton;
+      EditText urlEditText;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_web);
+  
+          // url 관련 객체들 참조
+          urlPage = findViewById(R.id.urlPage);
+          urlButton = findViewById(R.id.urlOpenCloseButton);
+          urlConnectButton = findViewById(R.id.urlConnectButton);
+          urlEditText = findViewById(R.id.urlEditText);
+  
+          // 애니메이션 객체 참조
+          translateDownAnim = AnimationUtils.loadAnimation(this,
+                  R.anim.translate_down);
+          translateUpAnim = AnimationUtils.loadAnimation(this,
+                  R.anim.translate_up);
+  
+          //
+          SlidingPageAnimationListener animationListener =
+                  new SlidingPageAnimationListener();
+          translateUpAnim.setAnimationListener(animationListener);
+          translateDownAnim.setAnimationListener(animationListener);
+  
+          urlButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  if (isPageOpen) {
+                      urlPage.startAnimation(translateUpAnim);
+                      urlPage.setVisibility(View.GONE);
+                  } else {
+                      urlPage.setVisibility(View.VISIBLE);
+                      urlPage.startAnimation(translateDownAnim);
+                  }
+              }
+          });
+  
+          webView = findViewById(R.id.activity_main_webview);
+  
+          WebSettings webSettings = webView.getSettings();
+          webSettings.setJavaScriptEnabled(true);
+  
+          webView.setWebViewClient(new WebViewClient(){
+              @Override
+              public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                  view.loadUrl(url);
+                  return true;
+              }
+          });
+  
+          urlConnectButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  webView.loadUrl(urlEditText.getText().toString());
+              }
+          });
+      }
+  
+      // 애니메이션을 감시할 리스너 클래스
+      private class SlidingPageAnimationListener implements Animation.AnimationListener {
+          @Override
+          // 애니메이션이 시작했을 때 동작하는 메소드
+          public void onAnimationStart(Animation animation) {
+              if (isPageOpen) {
+                  urlButton.setText("Open");
+              } else {
+                  urlButton.setText("Close");
+              }
+          }
+  
+          @Override
+          // 애니메이션이 끝났을 때 동작하는 메소드
+          public void onAnimationEnd(Animation animation) {
+              if (isPageOpen) {
+                  urlPage.setVisibility(View.INVISIBLE);
+                  urlPage.setVisibility(View.GONE);
+                  isPageOpen = false;
+              } else {
+                  isPageOpen = true;
+              }
+          }
+  
+          @Override
+          public void onAnimationRepeat(Animation animation) {
+  
+          }
+      }
+  }
+  ```
+
+  ![1551334249269](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551334249269.png)

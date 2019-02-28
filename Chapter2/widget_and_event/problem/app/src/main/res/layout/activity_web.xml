@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WebActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/urlOpenCloseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="열기"
+                android:textSize="25dp" />
+
+            <LinearLayout
+                android:id="@+id/urlPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/urlEditText"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="http://"
+                    android:textSize="25dp" />
+
+                <Button
+                    android:id="@+id/urlConnectButton"
+                    android:text=" 이동 "
+                    android:textSize="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <WebView
+                android:id="@+id/activity_main_webview"
+                android:fadingEdge="none"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </WebView>
+
+        </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -4,6 +4,8 @@
 
 [![Version](https://img.shields.io/badge/version-2019.01.02-blue.svg)](https://github.com/LeeSM0518/Android/blob/master/VERSION.md)
 
+<img src="https://www.inflearn.com/wp-content/uploads/androidstudio.png" width="100%">
+
 * 안드로이드 학습 내용 및 예제 작성
 
 <br>

@@ -283,4 +283,485 @@
 
 
 
-## 아이템을 위한 XML 레이아웃 정의하기(예제)
+## 예제(아이템을 위한 XML 레이아웃 정의하기)
+
+* **/res/layout/singer_item.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+  
+      <!-- 왼쪽에 보이는 이미지 뷰 정의 -->
+      <ImageView
+          android:id="@+id/imageView"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
+          android:src="@drawable/singer" />
+  
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="10dp"
+          android:orientation="vertical">
+  
+          <!-- 첫 번째 줄의 텍스트뷰 정의 -->
+          <TextView
+              android:id="@+id/textView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="New Text"
+              android:textColor="#ff5805"
+              android:textSize="40dp"
+              android:textStyle="bold" />
+  
+  
+          <!-- 두 번째 줄을 표시할 상대 레이아웃 정의 -->
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+  
+              <!-- 두 번째 줄의 왼쪽에 있는 텍스트뷰 정의 -->
+              <TextView
+                  android:id="@+id/textView2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true"
+                  android:layout_marginTop="6dp"
+                  android:text="New Text"
+                  android:textColor="#0223e0"
+                  android:textSize="20dp" />
+  
+              <!-- 두 번째 줄의 오른쪽에 있는 텍스트뷰 정의 -->
+              <TextView
+                  android:id="@+id/textView3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:text="New Text"
+                  android:textColor="#4902d6"
+                  android:textSize="20dp" />
+  
+          </RelativeLayout>
+      </LinearLayout>
+  
+  </LinearLayout>
+  ```
+
+* **/java/com~/SingerItemView.java**
+
+  ```java
+  package com.example.samplelistview;
+  
+  import android.content.Context;
+  import android.view.LayoutInflater;
+  import android.widget.ImageView;
+  import android.widget.LinearLayout;
+  import android.widget.TextView;
+  
+  // SingerItemVIew 클래스는 리니어 레이아웃을 상속하므로 다른 뷰들을 포함할 수 있다.
+  public class SingerItemView extends LinearLayout {
+      TextView textView;
+      TextView textView2;
+      TextView textView3;
+      ImageView imageView;
+  
+      // Context 객체와 SingerItemView 객체를 파라미터로 전달받는다.
+      public SingerItemView(Context context) {
+          super(context);
+          init(context);
+      }
+  
+      public void init(Context context) {
+          // XML 레이아웃의 정보를 객체화하기 위해 LayoutInflator 객체를 참조
+          LayoutInflater inflater = (LayoutInflater)
+                  context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+          // 인플레이트
+          inflater.inflate(R.layout.singer_item, this, true);
+  
+          textView = findViewById(R.id.textView);
+          textView2 = findViewById(R.id.textView2);
+          textView3 = findViewById(R.id.textView3);
+          imageView = findViewById(R.id.imageView);
+      }
+  
+      public void setName(String name) {
+          textView.setText(name);
+      }
+  
+      public void setMobile(String mobile) {
+          textView2.setText(mobile);
+      }
+  
+      public void setAge(int age) {
+          textView3.setText(String.valueOf(age));
+      }
+  
+      public void setImageView(int resId) {
+          imageView.setImageResource(resId);
+      }
+  }
+  ```
+
+* **/java/com~/SingerItem.java**
+
+  ```java
+  package com.example.samplelistview;
+  
+  // 한 아이템에 필요한 데이터는 하나의 객체로 만들어 놓는 것이 좋으므로
+  // 클래스로 정의한다.
+  public class SingerItem {
+  
+      String name;
+      String mobile;
+      int age;
+      int resId;
+  
+      public SingerItem(String name, String mobile) {
+          this.name = name;
+          this.mobile = mobile;
+      }
+  
+      public SingerItem(String name, String mobile, int age, int resId) {
+          this.name = name;
+          this.mobile = mobile;
+          this.age = age;
+          this.resId = resId;
+      }
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public String getMobile() {
+          return mobile;
+      }
+  
+      public void setMobile(String mobile) {
+          this.mobile = mobile;
+      }
+  
+      public int getAge() {
+          return age;
+      }
+  
+      public void setAge(int age) {
+          this.age = age;
+      }
+  
+      public int getResId() {
+          return resId;
+      }
+  
+      public void setResId(int resId) {
+          this.resId = resId;
+      }
+  }
+  ```
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.samplelistview;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.AdapterView;
+  import android.widget.BaseAdapter;
+  import android.widget.EditText;
+  import android.widget.ListView;
+  import android.widget.Toast;
+  
+  import java.util.ArrayList;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      EditText editText;
+  
+      ListView listView;
+      SingerAdapter adapter;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          // 리스트뷰 객체 참조
+          listView = findViewById(R.id.listView);
+  
+          // 어댑터 객체 참조
+          adapter = new SingerAdapter();
+  
+          // 어댑터에 각 아이템의 데이터 추가
+          adapter.addItem(new SingerItem("소녀시대", "010-1000-1000", 20, R.drawable.singer));
+          adapter.addItem(new SingerItem("걸스데이", "010-2000-2000", 22, R.drawable.singer2));
+          adapter.addItem(new SingerItem("여자친구", "010-3000-3000", 21, R.drawable.singer3));
+          adapter.addItem(new SingerItem("티아라", "010-4000-4000", 24, R.drawable.singer4));
+          adapter.addItem(new SingerItem("AOA", "010-5000-5000", 25, R.drawable.singer5));
+  
+          // 리스트뷰에 어댑터 객체 설정
+          listView.setAdapter(adapter);
+  
+          // 아이템을 클릭했을 때 토스트 메시지를 보여주도록 리스너 설정
+          listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  SingerItem item = (SingerItem) adapter.getItem(position);
+                  Toast.makeText(getApplicationContext(), "선택 : " + item.getName(), Toast.LENGTH_LONG).show();
+              }
+          });
+      }
+  
+      // BaseAdapter 를 상속하여 새로운 어댑터 클래스 정의
+      class SingerAdapter extends BaseAdapter {
+          // 각 아이템의 데이터를 담고 있는 SingerItem 객체를
+          // 저장할 ArrayList 객체 생성
+          ArrayList<SingerItem> items = new ArrayList<SingerItem>();
+  
+          @Override
+          // 전체 아이템의 개수를 리턴하는 메소드 정의
+          // (어댑터에서 관리하는 아이템의 개수를 리턴)
+          public int getCount() {
+              return items.size();
+          }
+  
+          public void addItem(SingerItem item) {
+              items.add(item);
+          }
+  
+          @Override
+          public Object getItem(int position) {
+              return items.get(position);
+          }
+  
+          @Override
+          public long getItemId(int position) {
+              return position;
+          }
+  
+          @Override
+          // 아이템에 표시할 뷰 리턴하는 메소드 정의
+          // 첫 번째 파라미터 : 아이템의 인덱스, 리스트 뷰에서 아이템의 위치
+          // 두 번째 파라미터 : 현재 인덱스에 해당하는 뷰 객체
+          // 세 번째 파라미터 : 이 뷰를 포함하고 있는 부모 컨테이너 객체.
+          public View getView(int position, View convertView, ViewGroup viewGroup) {
+              SingerItemView view = new SingerItemView(getApplicationContext());
+              SingerItem item = items.get(position);
+              view.setName(item.getName());
+              view.setMobile(item.getMobile());
+              view.setAge(item.getAge());
+              view.setImageView(item.getResId());
+  
+              return view;
+          }
+      }
+  }
+  ```
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <ListView
+              android:id="@+id/listView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  
+          </ListView>
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **실행 결과**
+
+  ![1551601810820](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551601810820.png)
+
+
+
+# 05-4. 스피너 사용하기
+
+* **스피너(Spinner)** : 리스트뷰처럼 여러 아이템 중에서 하나를 선택하는 전형적인 위젯.
+
+
+
+## 예제(스피너 사용하기)
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+          <!-- 선택된 아이템이 무엇인지 표시할 텍스트뷰 정의 -->
+          <TextView
+              android:id="@+id/textView"
+              android:background="#0000ff"
+              android:textColor="#ffffff"
+              android:textSize="50dp"
+              android:layout_gravity="center_horizontal"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              />
+  
+          <!-- 스피너 정의 -->
+          <Spinner
+              android:id="@+id/spinner"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+          </Spinner>
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.samplespinner;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.AdapterView;
+  import android.widget.ArrayAdapter;
+  import android.widget.Spinner;
+  import android.widget.TextView;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      TextView textView;
+  
+      String[] items = { "mike", "angel", "crow", "john", "ginnie", "sally", "cohen", "rice" };
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          // 텍스트뷰 객체 참조
+          textView = findViewById(R.id.textView);
+  
+          // 스피너 객체 참조
+          Spinner spinner = findViewById(R.id.spinner);
+  
+          // 문자열 배열을 어댑터로 매핑
+          // 첫 번째 파라미터 : Context 객체
+          // 두 번째 파라미터 : 뷰를 초기화할 때 사용하는 XML
+          // (android.R.layout.simple_spinner_dropdown_item : 안드로이드 API에 들어 있는 미리 정의된 레이아웃, 단순 스피너 아이템의 레이아웃)
+          // 세 번째 파라미터 : 아이템으로 보일 문자열 데이터들의 배열
+          ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                  this, android.R.layout.simple_spinner_dropdown_item, items);
+  
+          // 문자열로만 구성된 아이템들을 스피너로 보여주기 위한 메소드
+          // 스피너의 각 아이템들을 보여줄 뷰에 사용되는 레이아웃을 지정
+          adapter.setDropDownViewResource(
+                  android.R.layout.simple_spinner_dropdown_item
+          );
+  
+          // 스피너 객체를 어댑터의 객체로 전달
+          spinner.setAdapter(adapter);
+  
+          // 아이템 선택 이벤트 처리
+          // 스피너 객체가 아이템 선택 이벤트를 처리할 수 있도록 하는 리스너
+          spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+  
+              // 아이템이 선택되었을 때 호출됨
+              @Override
+              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                  textView.setText(items[position]);
+              }
+  
+              // 아무것도 선택되지 않았을 때 호출됨
+              @Override
+              public void onNothingSelected(AdapterView<?> parent) {
+                  textView.setText("");
+              }
+          });
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![1551606012831](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551606012831.png)
+
+
+
+## 예제(하나의 문자열을 하나의 아이템으로 보여주기)
+
+* **java/com~/MainActivity.java(프로젝트 안만들었음)**
+
+  ```java
+  public class MainActivity extends ListActivity {
+      ...
+      // 리스트에 표시될 아이템들의 데이터를 배열로 정의
+      String[] items = {
+          "mike", "angel", "crow", "john", "ginnie", "sally", "cohen", "rice"
+      };
+      
+      // ArrayAdapter를 이용해 어댑터 객체를 생성한 후 리스트에 설정
+      public void onCreate(Bundle savedInstanceState) {
+          ...
+          setListAdapter(new ArrayAdapter<String>(
+          	this,
+              android.R.layout.simple_list_item_1,
+              items
+              )
+          );
+          ...
+          
+          // 리스트의 아이템이 선택되었을 때 처리하는 메소드 정의
+          protected void onListItemClick(ListView l, View v, int position, long id) {
+              super.onListItemClick(l, v, position, id);
+              
+              String text = " position: " + position + " " + items[position];
+          }
+      }
+  }
+  ```
+
+
+
+# 05-5. 그리드뷰 사용하기
+
+* **그리드뷰(GridView)** : 화면이 큰 PC 또는 웹에서 자주 사용하는 테이블(Table) 형태와 유사하게 데이터를 보여준다.
+* 격자 모양으로 보여주는 그리드뷰도 **여러 아이템 중의 하나를 선택하는 특징**이 있어 **선택 위젯**으로 분류한다. 그러므로 **어댑터**를 이용해 뷰에 들어가는 데이터를 설정하고 **getView() 메소드**를 이용해 각 아이템이 표현되는 모양을 결정한다.
+* **주의할 점** : 그리드뷰는 2차원적인 데이터, 즉 행과 열이 있는 데이터이기 때문에 정확하게 위치를 설정해줘야 한다.
+
+
+
+## 예제(그리드뷰 사용)
+

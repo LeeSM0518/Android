@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <!-- 왼쪽에 보이는 이미지 뷰 정의 -->
     <ImageView
         android:id="@+id/imageView"
-        android:src="@drawable/singer"
         android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:src="@drawable/singer" />
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
 
         <!-- 첫 번째 줄의 텍스트뷰 정의 -->
         <TextView
             android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="New Text"
-            android:textSize="40dp"
-            android:textStyle="bold"
             android:textColor="#ff5805"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
+
+        <!-- 두 번째 줄을 표시할 상대 레이아웃 정의 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- 두 번째 줄의 왼쪽에 있는 텍스트뷰 정의 -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="6dp"
+                android:text="New Text"
+                android:textColor="#0223e0"
+                android:textSize="20dp" />
+
+            <!-- 두 번째 줄의 오른쪽에 있는 텍스트뷰 정의 -->
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="New Text"
+                android:textColor="#4902d6"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
     </LinearLayout>
-
-    <!-- 두 번째 줄을 표시할 상대 레이아웃 정의 -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- 두 번째 줄의 왼쪽에 있는 텍스트뷰 정의 -->
-        <TextView
-            android:text="New Text"
-            android:id="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:textSize="20dp"
-            android:textColor="#0223e0"
-            android:layout_marginTop="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <!-- 두 번째 줄의 오른쪽에 있는 텍스트뷰 정의 -->
-        <TextView
-            android:layout_alignParentRight="true"
-            android:text="New Text"
-            android:id="@+id/textView3"
-            android:textSize="20dp"
-            android:textColor="#4902d6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
 
 </LinearLayout>

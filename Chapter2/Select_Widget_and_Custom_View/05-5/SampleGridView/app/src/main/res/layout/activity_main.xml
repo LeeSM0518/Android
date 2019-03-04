@@ -28,10 +28,21 @@
 
     </LinearLayout>
 
+    <!-- numColumns 속성 : 그리드뷰의 칼럼 수를 설정하는 역할, 그리드뷰를 구분 짓는 가장 중요한 속성이다. -->
+    <!-- horizontalSpacing, verticalSpacing 속성 : 각 아이템의 간격 -->
     <GridView
         android:id="@+id/gridView"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></GridView>
+        android:layout_height="match_parent"
+        android:background="#ffeeeeee"
+        android:numColumns="2"
+        android:horizontalSpacing="8dp"
+        android:verticalSpacing="8dp"
+        android:layout_margin="8dp"
+        >
+
+    </GridView>
 
 </RelativeLayout>

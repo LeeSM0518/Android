@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 변경된 날짜와 시간 값을 표시하는 텍스트뷰 추가 -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- 새로 정의한 DateTimePicker 뷰 사용을 위해 추가 -->
+        <com.example.sampledatetimepicker.DateTimePicker
+            android:id="@+id/picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </com.example.sampledatetimepicker.DateTimePicker>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

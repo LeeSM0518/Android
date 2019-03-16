@@ -6,25 +6,31 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </DatePicker>
+
+        <!-- 시간 선택 위젯을 보일지 여부를 결정하는 체크박스 정의 -->
+        <CheckBox
+            android:id="@+id/enableTimeCheckBox"
+            android:text="시간 보이기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- 시간 선택 위젯 정의 -->
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TimePicker>
+
+    </ScrollView>
     <!-- 날짜 선택 위젯 정의 -->
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </DatePicker>
-
-    <!-- 시간 선택 위젯을 보일지 여부를 결정하는 체크박스 정의 -->
-    <CheckBox
-        android:id="@+id/enableTimeCheckBox"
-        android:text="시간 보이기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!-- 시간 선택 위젯 정의 -->
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TimePicker>
 
 </LinearLayout>

@@ -7,7 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c913c8b4-772e-4cf3-93d3-dd4edeb8f3aa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../widget_and_event/problem/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../widget_and_event/problem/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SampleNinePatch/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../SampleNinePatch/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/app/src/main/java/com/example/sampledatetimepicker/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/app/src/main/java/com/example/sampledatetimepicker/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/app/src/main/res/layout/picker.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/app/src/main/res/layout/picker.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../05-6/SampleDateTimePicker/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Select_Widget_and_Custom_View.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../Select_Widget_and_Custom_View.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +48,15 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1157523715">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf />
@@ -52,20 +65,20 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1068" />
-    <option name="width" value="1499" />
-    <option name="height" value="1407" />
+    <option name="x" value="960" />
+    <option name="y" value="23" />
+    <option name="width" value="960" />
+    <option name="height" value="1097" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -159,44 +172,35 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1068" y="0" width="1499" height="1407" extended-state="0" />
+    <frame x="960" y="23" width="960" height="1097" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3293954" />
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Logcat" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Build" visible="true" weight="0.3301887" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Gradle" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Palette&#9;" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.51757187" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Designer" order="6" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Logcat" order="1" />
+      <window_info anchor="bottom" id="TODO" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="5" visible="true" weight="0.3301887" />
+      <window_info anchor="bottom" id="Android Profiler" order="6" show_stripe_button="false" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samplebitmapwidget/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samplebitmapwidget/MainActivity.java" />
   </component>
 </project>

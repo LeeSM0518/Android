@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:background="#ffffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--이전 월로 이동하기 위한 버튼 추가-->
+        <Button
+            android:id="@+id/monthPrevious"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backward"
+            android:gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            />
+
+        <!--현재 월을 표시하기 위한 텍스트뷰 추가-->
+        <TextView
+            android:id="@+id/monthText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="MonthView"
+            android:textSize="24dp"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            />
+
+        <!--이후 월로 이동하기 위한 버튼 추가-->
+        <Button
+            android:id="@+id/monthNext"
+            android:background="@drawable/forward"
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <!--새로 정의한 월별 캘린더 뷰 추가-->
+    <GridView
+        android:id="@+id/monthView"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp"
+        android:background="#ffbbbbbb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </GridView>
+
+</LinearLayout>

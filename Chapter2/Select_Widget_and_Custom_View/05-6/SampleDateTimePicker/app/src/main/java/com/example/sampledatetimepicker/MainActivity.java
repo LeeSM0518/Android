@@ -7,7 +7,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class /**/MainActivity extends AppCompatActivity {
 
     final SimpleDateFormat dateFormat = new SimpleDateFormat(
             "yyyy년 MM월 dd일 HH시 mm분"

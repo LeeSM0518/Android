@@ -205,7 +205,6 @@
           int action = event.getAction();
   
           switch (action) {
-  
               // 버튼을 눌렀을 때는 iconClicked 변수에 할당된 이미지 설정
               case MotionEvent.ACTION_DOWN :
                   setBackgroundResource(this.iconClicked);
@@ -266,7 +265,7 @@
 
 * **선택 위젯과 어뎁터**
 
-  : 원본 데이터를 위젯에 직접 설정하지 않고 어댑터라는 클래스를 사용. 선택할 수 있는 여러 개의 아이템이 표시도니느 선택 위젯은 어댑터(Adapter)를 통해 각각의 아이템을 화면에 디스플레이한다. 그리고 어댑터가 데이터 관리 기능을 담당한다.
+  : 원본 데이터를 위젯에 직접 설정하지 않고 어댑터라는 클래스를 사용. 선택할 수 있는 여러 개의 아이템이 표시되는 선택 위젯은 어댑터(Adapter)를 통해 각각의 아이템을 화면에 디스플레이한다. 그리고 어댑터가 데이터 관리 기능을 담당한다.
 
   ![image-20190316181100924](/Users/sangminlee/Library/Application Support/typora-user-images/image-20190316181100924.png)
 
@@ -714,7 +713,7 @@
 
 * **실행 결과**
 
-  
+  ![image-20190317173405483](/Users/sangminlee/Library/Application Support/typora-user-images/image-20190317173405483.png)
 
 
 
@@ -1091,7 +1090,7 @@
 
 * **실행 결과**
 
-  ![1551680449348](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\1551680449348.png)
+  ![image-20190317173547285](/Users/sangminlee/Library/Application Support/typora-user-images/image-20190317173547285.png)
 
 
 
@@ -1159,7 +1158,7 @@
   
   // 리니어 레이아웃을 상속하여 새로운 클래스 정의
   public class DateTimePicker extends LinearLayout {
-  
+      
       // 날짜나 시간이 변경되는 이벤트를 함께 처리하기 위한
       // 새로운 리스너 인터페이스 정의
       public static interface OnDateTimeChangedListener {
@@ -1992,7 +1991,7 @@
           setOnTouchListener(this);
       }
   
-      // 뷰가 초기화되고 나서 화면에 보이기 전 크기가 전해지면
+      // 뷰가 초기화되고 나서 화면에 보이기 전 크기가 정해지면
       // 호출되는 메소드 안에서 메모리 상에 새로운 비트맵 객체 생성
       // (뷰가 보이기전에 호출 됨)
       protected void onSizeChanged(int w, int h, int oldw, int oldh) {

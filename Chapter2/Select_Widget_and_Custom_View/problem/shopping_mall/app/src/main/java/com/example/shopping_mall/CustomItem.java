@@ -1,5 +1,6 @@
 package com.example.shopping_mall;
 
+// 고객 클래스 구현
 public class CustomItem {
 
     String name;

@@ -2320,3 +2320,780 @@ c05-1. 나인패치 이미지 알아보기
 
 # 도전 문제
 
+## 메인 화면
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <Button
+          android:id="@+id/customerManagement"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="248dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:text="고객 정보 관리"
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.497"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+  
+      <Button
+          android:id="@+id/shoppingManagement"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:text="쇼핑 상품 관리"
+          android:textSize="25dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/customerManagement" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  import android.content.Intent;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.widget.Button;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      Button customerManagement;
+      Button shoppingManagement;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          // 버튼 객체 참조
+          customerManagement = (Button) findViewById(R.id.customerManagement);
+          shoppingManagement = (Button) findViewById(R.id.shoppingManagement);
+  
+          customerManagement.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(getApplicationContext(), CustomerManament.class);
+                  startActivity(intent);
+              }
+          });
+  
+          shoppingManagement.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(getApplicationContext(), ShoppingManagement.class);
+                  startActivity(intent);
+              }
+          });
+      }
+  }
+  ```
+
+* **메인 화면**
+
+  ![shop2](../../capture/shop2.png)
+
+## 고객 정보 관리
+
+* **/res/layout/custom_item.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+  
+          <ImageView
+              android:padding="10dp"
+              android:id="@+id/userImage"
+              android:src="@drawable/user"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <LinearLayout
+              android:padding="5dp"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+  
+              <LinearLayout
+                  android:orientation="horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+  
+                  <TextView
+                      android:id="@+id/customNameText"
+                      android:text="고객 #1"
+                      android:textSize="20dp"
+                      android:textStyle="bold"
+                      android:layout_width="150dp"
+                      android:layout_height="wrap_content" />
+  
+                  <TextView
+                      android:id="@+id/customBirthDateText"
+                      android:layout_marginLeft="20dp"
+                      android:textSize="15dp"
+                      android:text="2019-03-19"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+  
+              </LinearLayout>
+  
+              <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+  
+                  <TextView
+                      android:id="@+id/customPhoneNumberText"
+                      android:layout_marginTop="10dp"
+                      android:text="010-0000-0000"
+                      android:textSize="15dp"
+                      android:layout_width="200dp"
+                      android:layout_height="wrap_content" />
+  
+              </LinearLayout>
+  
+          </LinearLayout>
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/res/layout/activity_customer_management.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".CustomerManament">
+  
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+  
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+  
+              <TextView
+                  android:layout_width="288dp"
+                  android:layout_height="41dp"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginLeft="24dp"
+                  android:layout_marginTop="28dp"
+                  android:textStyle="bold"
+                  android:text="고객정보"
+                  android:textSize="30dp"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent" />
+  
+              <TextView
+                  android:id="@+id/customCount"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginLeft="40dp"
+                  android:layout_marginTop="28dp"
+                  android:text="n 명"
+                  android:textSize="30dp" />
+  
+          </LinearLayout>
+  
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_marginTop="20dp"
+              android:layout_marginLeft="24dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+  
+              <EditText
+                  android:id="@+id/customNameEdit"
+                  android:hint="이름"
+                  android:textSize="25dp"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content" />
+  
+              <EditText
+                  android:id="@+id/customBirthDateEdit"
+                  android:hint="생년월일"
+                  android:textSize="25dp"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content" />
+  
+          </LinearLayout>
+  
+          <EditText
+              android:layout_marginTop="5dp"
+              android:layout_marginLeft="24dp"
+              android:id="@+id/customPhoneNumberEdit"
+              android:hint="전화번호"
+              android:textSize="25dp"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content" />
+  
+          <Button
+              android:id="@+id/customDataAddButton"
+              android:text="추가"
+              android:layout_marginTop="5dp"
+              android:layout_gravity="center_horizontal"
+              android:textSize="20dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+  
+          <ListView
+              android:padding="10dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp"
+              android:layout_marginBottom="20dp"
+              android:id="@+id/customListView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+  
+          </ListView>
+  
+  
+      </LinearLayout>
+  
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/CustomItem.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  // 고객 클래스 구현
+  public class CustomItem {
+  
+      String name;
+      String mobile;
+      String birthDate;
+  
+      public CustomItem(String name, String mobile, String birthDate) {
+          this.name = name;
+          this.mobile = mobile;
+          this.birthDate = birthDate;
+      }
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public String getMobile() {
+          return mobile;
+      }
+  
+      public void setMobile(String mobile) {
+          this.mobile = mobile;
+      }
+  
+      public String getBirthDate() {
+          return birthDate;
+      }
+  
+      public void setBirthDate(String birthDate) {
+          this.birthDate = birthDate;
+      }
+  }
+  ```
+
+* **/java/com~/CustomItemVIew.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  import android.content.Context;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.BaseAdapter;
+  import android.widget.ImageView;
+  import android.widget.LinearLayout;
+  import android.widget.TextView;
+  
+  import java.util.ArrayList;
+  
+  // CustomItemView 클래스가 리니어 레이아웃을 상속하므로
+  // 다른 뷰들을 포함할 수 있다.
+  public class CustomItemView extends LinearLayout {
+      ImageView imageView;
+      TextView customName;
+      TextView customBirthDate;
+      TextView customPhoneNumber;
+  
+      public CustomItemView(Context context) {
+          super(context);
+  
+          init(context);
+      }
+  
+      public void init(Context context) {
+          // XML 레이아웃의 정보를 객체화하기 위해 LayoutInflator 객체 참조
+          LayoutInflater inflater = (LayoutInflater)context.getSystemService(
+                  context.LAYOUT_INFLATER_SERVICE
+          );
+  
+          // 인플레이트
+          inflater.inflate(R.layout.custom_item, this, true);
+  
+          // 객체 참조
+          imageView = findViewById(R.id.userImage);
+          customBirthDate = findViewById(R.id.customBirthDateText);
+          customName = findViewById(R.id.customNameText);
+          customPhoneNumber = findViewById(R.id.customPhoneNumberText);
+      }
+  
+      // custom_item 레이아웃의 ViewSet 메소드
+      public void setCustomName(String name) {
+          customName.setText(name);
+      }
+  
+      public void setCustomBirthDate(String birth) {
+          customBirthDate.setText(birth);
+      }
+  
+      public void setCustomPhoneNumber(String number) {
+          customPhoneNumber.setText(number);
+      }
+  
+  }
+  ```
+
+* **/java/com~/CustomerManagement.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.BaseAdapter;
+  import android.widget.Button;
+  import android.widget.EditText;
+  import android.widget.ListView;
+  import android.widget.TextView;
+  
+  import java.util.ArrayList;
+  
+  public class CustomerManagement extends AppCompatActivity {
+  
+      EditText customNameEdit;
+      EditText customBirthDateEdit;
+      EditText customPhoneNumberEdit;
+      TextView customCount;
+  
+      ListView customListView;
+      CustomAdapter customAdapter;
+  
+      Button addCustomDataButton;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_customer_manament);
+  
+          customBirthDateEdit = findViewById(R.id.customBirthDateEdit);
+          customCount = findViewById(R.id.customCount);
+          customPhoneNumberEdit = findViewById(R.id.customPhoneNumberEdit);
+          customNameEdit = findViewById(R.id.customNameEdit);
+  
+          addCustomDataButton = findViewById(R.id.customDataAddButton);
+  
+          customListView = findViewById(R.id.customListView);
+  
+          //
+          customAdapter = new CustomAdapter();
+  
+          customCount.setText(customAdapter.getCount() + " 명");
+  
+          addCustomDataButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  customAdapter.addItem(new CustomItem(
+                          customNameEdit.getText().toString(),
+                          customPhoneNumberEdit.getText().toString(),
+                          customBirthDateEdit.getText().toString()
+                  ));
+  
+                  customAdapter.notifyDataSetChanged();
+                  customCount.setText(customAdapter.getCount() + " 명");
+  
+                  customBirthDateEdit.setText("");
+                  customNameEdit.setText("");
+                  customPhoneNumberEdit.setText("");
+              }
+          });
+  
+          customListView.setAdapter(customAdapter);
+      }
+  
+      // BaseAdapter 를 상속하여 새로운 어댑터 클래스 정의
+      class CustomAdapter extends BaseAdapter {
+          // 각 아이템의 데이터를 담고 있는 CustomItem 객체를
+          // 저장할 ArrayList 객체 생성
+          ArrayList<CustomItem> customItems = new ArrayList<CustomItem>();
+  
+          @Override
+          public int getCount() {
+              return customItems.size();
+          }
+  
+          // item을 리스트에 추가해주는 메소드 정의
+          public void addItem(CustomItem item) {
+              customItems.add(item);
+          }
+  
+          @Override
+          public Object getItem(int position) {
+              return customItems.get(position);
+          }
+  
+          @Override
+          public long getItemId(int position) {
+              return position;
+          }
+  
+          @Override
+          // 아이템에 표시할 뷰 리턴하는 메소드 정의
+          public View getView(int position, View convertView, ViewGroup parent) {
+              // View 생성
+              CustomItemView view = new CustomItemView(getApplicationContext());
+              // item 을 가져옴
+              CustomItem item = customItems.get(position);
+              // view 를 set 해주는 과정
+              view.setCustomName(item.getName());
+              view.setCustomBirthDate(item.getBirthDate());
+              view.setCustomPhoneNumber(item.getMobile());
+  
+              return view;
+          }
+      }
+  }
+  ```
+
+* **고객 정보 관리 화면**
+
+  ![shop3](../../capture/shop3.png)
+
+
+
+## 쇼핑 정보 관리
+
+* **/res/layout/product_item.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:orientation="vertical"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+  
+          <ImageView
+  
+              android:id="@+id/productImage"
+              android:layout_width="150dp"
+              android:layout_height="150dp" />
+  
+          <TextView
+              android:id="@+id/productName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:text="옷 이름"
+              android:textSize="20dp"
+              android:textStyle="bold" />
+  
+          <TextView
+              android:id="@+id/productPrice"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:text="옷 가격"
+              android:textSize="15dp" />
+  
+  
+      </LinearLayout>
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/res/layout/activity_shopping_management.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".ShoppingManagement">
+  
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginBottom="8dp"
+          android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+  
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:text="쇼핑 상품"
+              android:textSize="30dp" />
+  
+          <GridView
+              android:id="@+id/gridView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="10dp"
+              android:numColumns="2"
+              android:padding="15dp">
+  
+          </GridView>
+  
+      </LinearLayout>
+      
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/ProductItem.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  // 상품 클래스 구현
+  public class ProductItem {
+  
+      String name;
+      String price;
+      int resId;
+  
+      public ProductItem(String name, String price, int resId) {
+          this.name = name;
+          this.price = price;
+          this.resId = resId;
+      }
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public String getPrice() {
+          return price;
+      }
+  
+      public void setPrice(String price) {
+          this.price = price;
+      }
+  
+      public int getResId() {
+          return resId;
+      }
+  
+      public void setResId(int resId) {
+          this.resId = resId;
+      }
+  }
+  ```
+
+* **/java/com~/ProductItemView.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  import android.content.Context;
+  import android.view.LayoutInflater;
+  import android.widget.ImageView;
+  import android.widget.LinearLayout;
+  import android.widget.TextView;
+  
+  public class ProductItemView extends LinearLayout {
+      ImageView productImage;
+      TextView productName;
+      TextView productPrice;
+  
+      public ProductItemView(Context context) {
+          super(context);
+  
+          init(context);
+      }
+  
+      public void init(Context context) {
+          LayoutInflater layoutInflater =
+                  (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+  
+          layoutInflater.inflate(R.layout.product_item, this, true);
+  
+          productImage = findViewById(R.id.productImage);
+          productName = findViewById(R.id.productName);
+          productPrice = findViewById(R.id.productPrice);
+      }
+  
+      public void setProductImage(int resId) {
+          productImage.setImageResource(resId);
+      }
+  
+      public void setProductName(String name) {
+          productName.setText(name);
+      }
+  
+      public void setProductPrice(String price) {
+          productPrice.setText(price + " 원");
+      }
+  }
+  ```
+
+* **/java/com~/ShoppingManagement.java**
+
+  ```java
+  package com.example.shopping_mall;
+  
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.AdapterView;
+  import android.widget.BaseAdapter;
+  import android.widget.GridView;
+  import android.widget.Toast;
+  
+  import java.util.ArrayList;
+  
+  public class ShoppingManagement extends AppCompatActivity {
+      GridView gridView;
+      ProductAdapter productAdapter;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_shopping_management);
+  
+          gridView = findViewById(R.id.gridView);
+          productAdapter = new ProductAdapter();
+  
+          productAdapter.addItem(new ProductItem(
+                  "FILA 보라색 맨투맨", "30000", R.drawable.image1));
+          productAdapter.addItem(new ProductItem(
+                  "FILA 흰색 맨투맨", "40000", R.drawable.image2));
+          productAdapter.addItem(new ProductItem(
+                  "FILA 검은색 맨투맨", "25000", R.drawable.image3));
+          productAdapter.addItem(new ProductItem(
+                  "FILA 남색 맨투맨", "10000", R.drawable.image4));
+  
+          gridView.setAdapter(productAdapter);
+  
+          gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  ProductItem item = (ProductItem) productAdapter.getItem(position);
+                  Toast.makeText(getApplicationContext(), "옷 이름 : " + item.getName() +
+                          "\n옷 가격 : " + item.getPrice(), Toast.LENGTH_LONG).show();
+              }
+          });
+      }
+  
+      class ProductAdapter extends BaseAdapter {
+  
+          ArrayList<ProductItem> products = new ArrayList<ProductItem>();
+  
+          @Override
+          public int getCount() {
+              return products.size();
+          }
+  
+          @Override
+          public Object getItem(int position) {
+              return products.get(position);
+          }
+  
+          @Override
+          public long getItemId(int position) {
+              return position;
+          }
+  
+          public void addItem(ProductItem item) {
+              products.add(item);
+          }
+  
+          @Override
+          public View getView(int position, View convertView, ViewGroup parent) {
+              ProductItemView view = new ProductItemView(getApplicationContext());
+              ProductItem item = products.get(position);
+              view.setProductImage(item.getResId());
+              view.setProductName(item.getName());
+              view.setProductPrice(item.getPrice());
+  
+              return view;
+          }
+      }
+  }
+  ```
+
+* **쇼핑 정보 관리**
+
+  ![shop1](../../capture/shop1.png)

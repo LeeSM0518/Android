@@ -16,13 +16,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 버튼 객체 참조
         customerManagement = (Button) findViewById(R.id.customerManagement);
         shoppingManagement = (Button) findViewById(R.id.shoppingManagement);
 
         customerManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CustomerManament.class);
+                Intent intent = new Intent(getApplicationContext(), CustomerManagement.class);
                 startActivity(intent);
             }
         });

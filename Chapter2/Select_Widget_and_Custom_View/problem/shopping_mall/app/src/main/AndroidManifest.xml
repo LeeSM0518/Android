@@ -12,7 +12,7 @@
         <activity android:name=".ShoppingManagement">
 
         </activity>
-        <activity android:name=".CustomerManament" >
+        <activity android:name=".CustomerManagement" >
 
         </activity>
         <activity android:name=".MainActivity">

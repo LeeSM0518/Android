@@ -1,5 +1,6 @@
 package com.example.shopping_mall;
 
+// 상품 클래스 구현
 public class ProductItem {
 
     String name;

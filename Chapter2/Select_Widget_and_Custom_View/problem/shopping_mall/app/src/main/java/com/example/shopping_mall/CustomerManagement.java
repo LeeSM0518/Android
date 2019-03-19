@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomerManament extends AppCompatActivity {
+public class CustomerManagement extends AppCompatActivity {
 
     EditText customNameEdit;
     EditText customBirthDateEdit;
@@ -38,6 +38,7 @@ public class CustomerManament extends AppCompatActivity {
 
         customListView = findViewById(R.id.customListView);
 
+        //
         customAdapter = new CustomAdapter();
 
         customCount.setText(customAdapter.getCount() + " 명");
@@ -54,16 +55,19 @@ public class CustomerManament extends AppCompatActivity {
                 customAdapter.notifyDataSetChanged();
                 customCount.setText(customAdapter.getCount() + " 명");
 
-//                customBirthDateEdit.setText("");
-//                customNameEdit.setText("");
-//                customPhoneNumberEdit.setText("");
+                customBirthDateEdit.setText("");
+                customNameEdit.setText("");
+                customPhoneNumberEdit.setText("");
             }
         });
 
         customListView.setAdapter(customAdapter);
     }
 
+    // BaseAdapter 를 상속하여 새로운 어댑터 클래스 정의
     class CustomAdapter extends BaseAdapter {
+        // 각 아이템의 데이터를 담고 있는 CustomItem 객체를
+        // 저장할 ArrayList 객체 생성
         ArrayList<CustomItem> customItems = new ArrayList<CustomItem>();
 
         @Override
@@ -71,6 +75,7 @@ public class CustomerManament extends AppCompatActivity {
             return customItems.size();
         }
 
+        // item을 리스트에 추가해주는 메소드 정의
         public void addItem(CustomItem item) {
             customItems.add(item);
         }
@@ -86,9 +91,13 @@ public class CustomerManament extends AppCompatActivity {
         }
 
         @Override
+        // 아이템에 표시할 뷰 리턴하는 메소드 정의
         public View getView(int position, View convertView, ViewGroup parent) {
+            // View 생성
             CustomItemView view = new CustomItemView(getApplicationContext());
+            // item 을 가져옴
             CustomItem item = customItems.get(position);
+            // view 를 set 해주는 과정
             view.setCustomName(item.getName());
             view.setCustomBirthDate(item.getBirthDate());
             view.setCustomPhoneNumber(item.getMobile());

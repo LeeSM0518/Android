@@ -148,15 +148,15 @@
 
 * **메시지 큐(Message Queue)** : 앱을 실행할 때 액티비티, 브로드캐스트 수신자 등과 새로 만들어지는 윈도우를 관리한다.
 
-* **핸들러 클래스** : 메시지 큐를 이용해 메인 스레드에서 처리할 메시지르 전달하는 역할을 한다. 핸들러를 이용하면 특정 메시지가 알맞은 시점에 실행되도록 스케줄링 할 수도 있다.
+* **핸들러 클래스** : 메시지 큐를 이용해 메인 스레드에서 처리할 메시지를 전달하는 역할을 한다. 핸들러를 이용하면 특정 메시지가 알맞은 시점에 실행되도록 스케줄링 할 수도 있다.
 
 * **핸들러를 사용할 때 필요한 세 가지 단계**
 
   ![스크린샷 2019-03-22 오후 2.21.40](../../capture/스크린샷 2019-03-22 오후 2.21.40.png)
 
-  > 1. obtainMessage( ) 메소드를 이용하여 호출의 결과로 메시지 객체를 리턴받는다.
-  > 2. sendMessage( ) 메소드를 이용해 메시지 큐에 넣을 수 있다.
-  > 3. 메시지 큐에 들어간 메시지는 순서대로 핸들러가 처리하게 되며 이때handleMessage( ) 메소드에 정의된 기능이 수행된다.
+  > 1. **obtainMessage( ) 메소드**를 이용하여 호출의 결과로 메시지 객체를 리턴받는다.
+  > 2. **sendMessage( ) 메소드**를 이용해 메시지 큐에 넣을 수 있다.
+  > 3. 메시지 큐에 들어간 메시지는 순서대로 핸들러가 처리하게 되며 이때**handleMessage( ) 메소드**에 정의된 기능이 수행된다.
 
 
 
@@ -292,7 +292,7 @@
 
 ## Runnable 객체 생성하기
 
-: 새로 만든 Runnable 객체를 핸들러의 post() 메소드를 이용해 전달해 주기만 하면 이 객체에 정의된 run() 메소드 내의 코드들을 메인 스레드에서 실행 된다.
+: 새로 만든 Runnable 객체를 핸들러의 **post() 메소드**를 이용해 전달해 주기만 하면 이 객체에 정의된 **run() 메소드** 내의 코드들을 메인 스레드에서 실행 된다.
 
 
 
@@ -612,7 +612,7 @@
   }
   ```
 
-  > 앱일 실행하면 대화상자가 없어지고 나서 원격 요청 코드가 실행되는 것을 볼 수 있다.
+  > 앱을 실행하면 대화상자가 없어지고 나서 원격 요청 코드가 실행되는 것을 볼 수 있다.
 
 
 
@@ -1000,3 +1000,118 @@
   ![img](../../capture/스크린샷 2019-03-22 오후 9.08.46.png)
 
   
+
+# 07-5. 스레드로 애니메이션 만들기
+
+ 여러 이미지를 연속으로 바꾸면서 애니메이션 효과를 만들고 싶을 때 **스레드** 이용.
+
+
+
+## 스레드로 간단히 애니메이션 만들기(예제)
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <ImageView
+          android:id="@+id/imageView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.samplethreadanimation;
+  
+  import android.content.res.Resources;
+  import android.graphics.drawable.Drawable;
+  import android.os.Handler;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.widget.ImageView;
+  
+  import java.util.ArrayList;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      ImageView imageView;
+  
+      // 이미지 객체를 넣어둘 리스트
+      ArrayList<Drawable> drawableList = new ArrayList<Drawable>();
+  
+      Handler handler = new Handler();
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          imageView = findViewById(R.id.imageView);
+  
+          startAnimation();
+      }
+  
+      public void startAnimation() {
+          Resources res = getResources();
+  
+          drawableList.add(res.getDrawable(R.drawable.face1));
+          drawableList.add(res.getDrawable(R.drawable.face2));
+          drawableList.add(res.getDrawable(R.drawable.face3));
+          drawableList.add(res.getDrawable(R.drawable.face4));
+          drawableList.add(res.getDrawable(R.drawable.face5));
+  
+          AnimThread thread = new AnimThread();
+          thread.start();
+      }
+  
+      // 이미지를 사용해 애니메이션을 구현하는 스레드
+      class AnimThread extends Thread {
+          public void run() {
+              int index = 0;
+              // 스레드를 실행하면 다섯 개의 이미지를
+              // 번갈아 가면서 화면에 보여준다.
+              for (int i = 0; i < 100; i++) {
+                  // 이미지 파일 로딩
+                  final Drawable drawable = drawableList.get(index);
+                  index += 1;
+                  if (index > 4) {
+                      index = 0;
+                  }
+  
+                  handler.post(new Runnable() {
+                      @Override
+                      public void run() {
+                          // 이미지뷰를 설정한다.
+                          imageView.setImageDrawable(drawable);
+                      }
+                  });
+  
+                  try {
+                      Thread.sleep(500);
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+          }
+      }
+  }
+  ```
+
+* **실행 결과**
+
+  ![image](../../capture/스크린샷 2019-03-25 오후 9.16.30.png)
+
+
+
+
+

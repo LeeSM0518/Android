@@ -13,13 +13,15 @@ public class JavaSocketServer {
             int portNumber = 5001;
 
             System.out.println("Starting Java Socket Server ...");
-            // 객체 생성
+            // 소켓 연결을 수신하기 위한 ServerSocket 객체 생성
             ServerSocket aServerSocket = new ServerSocket(portNumber);
             System.out.println("Listening at port " + portNumber + " ...");
 
-            // 클라이언트 연결 대기
+            // 반목문을 이용해 클라이언트 연결 대기
             while (true) {
-                // 소켓 객체 참조
+                // 클라이언트 연결 시 소켓 객체 참조
+                // accept() 메소드를 통해 리턴되는 소켓 객체로
+                // 클라이언트 소켓의 연결 정보 확인
                 Socket sock = aServerSocket.accept();
                 InetAddress clientHost = sock.getLocalAddress();
                 int clientPort = sock.getPort();

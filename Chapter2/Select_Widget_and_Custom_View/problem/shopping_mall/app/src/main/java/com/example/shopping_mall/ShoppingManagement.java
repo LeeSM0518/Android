@@ -1,5 +1,6 @@
 package com.example.shopping_mall;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ShoppingManagement extends AppCompatActivity {
+
     GridView gridView;
     ProductAdapter productAdapter;
 

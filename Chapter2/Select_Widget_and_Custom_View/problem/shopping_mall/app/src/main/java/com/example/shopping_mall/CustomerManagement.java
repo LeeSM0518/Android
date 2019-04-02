@@ -38,7 +38,6 @@ public class CustomerManagement extends AppCompatActivity {
 
         customListView = findViewById(R.id.customListView);
 
-        //
         customAdapter = new CustomAdapter();
 
         customCount.setText(customAdapter.getCount() + " 명");
@@ -54,10 +53,6 @@ public class CustomerManagement extends AppCompatActivity {
 
                 customAdapter.notifyDataSetChanged();
                 customCount.setText(customAdapter.getCount() + " 명");
-
-                customBirthDateEdit.setText("");
-                customNameEdit.setText("");
-                customPhoneNumberEdit.setText("");
             }
         });
 
@@ -68,7 +63,17 @@ public class CustomerManagement extends AppCompatActivity {
     class CustomAdapter extends BaseAdapter {
         // 각 아이템의 데이터를 담고 있는 CustomItem 객체를
         // 저장할 ArrayList 객체 생성
-        ArrayList<CustomItem> customItems = new ArrayList<CustomItem>();
+        ArrayList<CustomItem> customItems = new ArrayList<>();
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+
+            customBirthDateEdit.setText("");
+            customNameEdit.setText("");
+            customPhoneNumberEdit.setText("");
+        }
+
 
         @Override
         public int getCount() {

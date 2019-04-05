@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--영화제목/이미지url/상세보기링크/개봉일/감독-->
     <ImageView
         android:id="@+id/imageView_img"
         android:layout_width="wrap_content"

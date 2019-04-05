@@ -555,7 +555,7 @@
 
 
 
-# 08-4. 뉴스 정보 가져오기(오류!!)
+# 08-4. 인터넷 정보 가져오기
 
 * **RSS(Really Simple Syndication)** : 자주 바뀌는 내용을 제공하기 위해 사용되는 **표준 웹 피즈(Feed) 포맷**이다. RSS는 최신 연예 뉴스나 스포츠 뉴스를 사용자에게 보여주고 싶을 때 애플리케이션에서 간단하게 연동하여 사용할 수 있다. RSS 문서에는 뉴스외 제목과 내용 그리고 만든 날짜 등과 함께 **RSS 채널 자체의 정보가 메타데이터**로 들어있다.
 
@@ -577,3 +577,424 @@
 
 
 
+## 네이버 영화 정보 가져오기(예제)
+
+* **/Gradle Sripts/build.gradle**
+
+  ```javascript
+  apply plugin: 'com.android.application'
+  
+  android {
+      compileSdkVersion 28
+      defaultConfig {
+          applicationId "com.example.samplejsoup"
+          minSdkVersion 15
+          targetSdkVersion 28
+          versionCode 1
+          versionName "1.0"
+          testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+      }
+      buildTypes {
+          release {
+              minifyEnabled false
+              proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+          }
+      }
+  }
+  
+  dependencies {
+      implementation fileTree(include: ['*.jar'], dir: 'libs')
+      // jsoup 추가
+      implementation 'org.jsoup:jsoup:1.11.3'
+      implementation 'com.android.support:appcompat-v7:28.0.0'
+      implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+      testImplementation 'junit:junit:4.12'
+      androidTestImplementation 'com.android.support.test:runner:1.0.2'
+      androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+      implementation 'com.android.support:design:28.0.0'
+      implementation 'com.android.support:appcompat-v7:28.0.0'
+      implementation 'com.github.bumptech.glide:glide:4.9.0'
+      implementation 'com.github.bumptech.glide:gifdecoder:4.9.0'
+      implementation 'com.github.bumptech.glide:recyclerview-integration:4.9.0'
+  }
+  ```
+
+* **/manifests/AndroidManifest.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.example.samplejsoup">
+  
+      <!--권한 추가-->
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+      <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  
+      <application
+          android:usesCleartextTraffic="true"
+          android:allowBackup="true"
+          android:icon="@mipmap/ic_launcher"
+          android:label="@string/app_name"
+          android:roundIcon="@mipmap/ic_launcher_round"
+          android:supportsRtl="true"
+          android:theme="@style/AppTheme">
+          <activity android:name=".MainActivity">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+  
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+          </activity>
+      </application>
+  
+  </manifest>
+  ```
+
+* **/res/layout/activity_main.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+  
+      <!--RecyclerView 추가-->
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/recyclerView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  
+      </android.support.v7.widget.RecyclerView>
+  
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/res/layout/item.xml**
+
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+  
+      <!--영화제목/이미지url/상세보기링크/개봉일/감독-->
+      <ImageView
+          android:id="@+id/imageView_img"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="16dp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:srcCompat="@mipmap/ic_launcher"
+          android:layout_marginLeft="16dp" />
+  
+      <TextView
+          android:id="@+id/textView_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="16dp"
+          android:paddingRight="8dp"
+          android:text="영화제목"
+          android:textSize="18dp"
+          android:textColor="@color/colorPrimary"
+          app:layout_constraintStart_toEndOf="@+id/imageView_img"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginLeft="16dp" />
+  
+      <TextView
+          android:id="@+id/textView_release"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:text="개봉일"
+          app:layout_constraintStart_toEndOf="@+id/imageView_img"
+          app:layout_constraintTop_toBottomOf="@+id/textView_title"
+          android:layout_marginLeft="16dp" />
+  
+      <TextView
+          android:id="@+id/textView_director"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="28dp"
+          android:text="감독"
+          app:layout_constraintStart_toEndOf="@+id/imageView_img"
+          app:layout_constraintTop_toTopOf="@+id/textView_release"
+          android:layout_marginLeft="16dp" />
+  
+  </android.support.constraint.ConstraintLayout>
+  ```
+
+* **/java/com~/ItemObject.java**
+
+  ```java
+  package com.example.samplejsoup;
+  
+  public class ItemObject {
+  
+      private String title;
+      private String img_url;
+      private String detail_link;
+      private String release;
+      private String director;
+  
+      public ItemObject(String title, String url, String link, String release, String director) {
+          this.title = title;
+          this.img_url = url;
+          this.detail_link = link;
+          this.release = release;
+          this.director = director;
+      }
+  
+      public String getTitle() {
+          return title;
+      }
+  
+      public String getImg_url() {
+          return img_url;
+      }
+  
+      public String getDetail_link() {
+          return detail_link;
+      }
+  
+      public String getRelease() {
+          return release;
+      }
+  
+      public String getDirector() {
+          return director;
+      }
+  }
+  ```
+
+* **/java/com~/MyAdapter.java**
+
+  ```java
+  package com.example.samplejsoup;
+  
+  import android.support.annotation.NonNull;
+  import android.support.v7.widget.RecyclerView;
+  import android.view.LayoutInflater;
+  import android.view.View;
+  import android.view.ViewGroup;
+  import android.widget.ImageView;
+  import android.widget.TextView;
+  
+  import com.bumptech.glide.Glide;
+  
+  import java.util.ArrayList;
+  
+  public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+  
+      // 데이터 배열 선언
+      private ArrayList<ItemObject> mList;
+  
+      // View 참조 클래스
+      public class ViewHolder extends RecyclerView.ViewHolder{
+  
+          private ImageView imageView_img;
+          private TextView textView_title, textView_release, textView_director;
+  
+          public ViewHolder(@NonNull View itemView) {
+              super(itemView);
+  
+              imageView_img = itemView.findViewById(R.id.imageView_img);
+              textView_title = itemView.findViewById(R.id.textView_title);
+              textView_release = itemView.findViewById(R.id.textView_release);
+              textView_director = itemView.findViewById(R.id.textView_director);
+          }
+      }
+  
+      // 생성자
+      public MyAdapter(ArrayList<ItemObject> list) {
+          this.mList = list;
+      }
+  
+  
+      @NonNull
+      @Override
+      // View 가 생성되었을 때 호출
+      public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+          // View 인플레이터
+          View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+  
+          return new ViewHolder(view);
+      }
+  
+      @Override
+      // 각 위치에 맞는 데이터 대입
+      public void onBindViewHolder(@NonNull MyAdapter.ViewHolder viewHolder, int i) {
+          viewHolder.textView_title.setText(String.valueOf(mList.get(i).getTitle()));
+          viewHolder.textView_release.setText(String.valueOf(mList.get(i).getRelease()));
+          viewHolder.textView_director.setText(String.valueOf(mList.get(i).getDirector()));
+  
+          // build.gradle 에 아래 주석추가
+          // implementation 'com.github.bumptech.glide:glide:4.9.0'
+          Glide.with(viewHolder.itemView).load(mList.get(i).getImg_url())
+                  .override(300, 400)
+                  .into(viewHolder.imageView_img);
+      }
+  
+      @Override
+      // 아이템 개수 리턴 메소드
+      public int getItemCount() {
+          return mList.size();
+      }
+  
+  }
+  ```
+
+* **/java/com~/MyAppGlideModule.java**
+
+   Glide 모듈 사용시 오류가 날때 추가
+
+  ```java
+  package com.example.samplejsoup;
+  
+  
+  import com.bumptech.glide.annotation.GlideModule;
+  import com.bumptech.glide.module.AppGlideModule;
+  
+  @GlideModule
+  public final class MyAppGlideModule extends AppGlideModule {
+  }
+  ```
+
+* **/java/com~/MainActivity.java**
+
+  ```java
+  package com.example.samplejsoup;
+  
+  import android.app.ProgressDialog;
+  import android.os.AsyncTask;
+  import android.support.v7.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.support.v7.widget.LinearLayoutManager;
+  import android.support.v7.widget.RecyclerView;
+  import android.util.Log;
+  
+  import org.jsoup.Jsoup;
+  import org.jsoup.nodes.Document;
+  import org.jsoup.nodes.Element;
+  import org.jsoup.select.Elements;
+  
+  import java.io.IOException;
+  import java.util.ArrayList;
+  
+  public class MainActivity extends AppCompatActivity {
+  
+      private RecyclerView recyclerView;
+      private ArrayList<ItemObject> list = new ArrayList<>();
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          recyclerView = findViewById(R.id.recyclerView);
+  
+          // AsyncTask 작동시킨다.(파싱)
+          new Description().execute();
+      }
+  
+      private class Description extends AsyncTask<Void, Void, Void> {
+  
+          // 진행바 표시
+          private ProgressDialog progressDialog;
+  
+          @Override
+          protected void onPreExecute() {
+  
+              super.onPreExecute();
+  
+              // 진행 다이어로그 시작
+              progressDialog = new ProgressDialog(MainActivity.this);
+              progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+              progressDialog.setMessage("잠시 기다려 주세요.");
+              progressDialog.show();
+  
+          }
+  
+          @Override
+          protected Void doInBackground(Void... voids) {
+  
+              try {
+                  Document doc = Jsoup.connect("https://movie.naver.com/movie/running/current.nhn").get();
+  
+                  // <ul class="lst_detail_t1"> 태그의 <li> 태그를 선택한다.
+                  Elements mElementDataSize = doc.select("ul[class=lst_detail_t1]").select("li");
+  
+                  // mElementDataSize 에 저장된 <li> 요소들을 하나씩 가져온다.
+                  for(Element elem : mElementDataSize){
+                      // <li> 에서 다시 원하는 데이터를 추출해 낸다.
+  
+                      // <li> 안에 <dt class="tit"> 안에 <a> 태그의 text 가져옴.
+                      String my_title = elem.select("li dt[class=tit] a").text();
+  
+                      // <li> 안에 <div class="thumb"> 안에 <a> 태그의 href 링크값을 가져옴
+                      String my_link = elem.select("li div[class=thumb] a").attr("href");
+  
+                      // <li> 안에 <div class="thumb"> 안에 <a> 태그안에 <img> 태그의 src의 png 값을 가져옴.
+                      String my_imgUrl = elem.select("li div[class=thumb] a img").attr("src");
+  
+                      // <li> 안에 <dl class="info_txt1"> 태그 들어가서 <dt> 태그 정보를 가져온다.
+                      Element rElem = elem.select("dl[class=info_txt1] dt").next().first();
+  
+                      // <dt> 태그 안에 <dd> 태그의 내용(종류, 시간, 개봉일)을 가져온다.
+                      String my_release = rElem.select("dd").text();
+  
+                      // <dt class="tit_t2"> 태그안으로 들어간다.
+                      Element dElem = elem.select("dt[class=tit_t2]").next().first();
+  
+                      // <a> 태그의 정보를 가져온다.
+                      String my_director = "감독: " + dElem.select("a").text();
+  
+                      //ArrayList에 추가한다.
+                      list.add(new ItemObject(my_title, my_imgUrl, my_link, my_release, my_director));
+                  }
+  
+                  //추출한 전체 <li> 출력해 보자.
+                  Log.d("debug :", "List " + mElementDataSize);
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+              return null;
+          }
+  
+          @Override
+          protected void onPostExecute(Void result) {
+              //ArrayList를 인자로 해서 어답터와 연결한다.
+              MyAdapter myAdapter = new MyAdapter(list);
+  
+              // 리니어 레이아웃을 가져온다.
+              RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+  
+              // recyclerView 에 레이아웃 매니저를 대입
+              recyclerView.setLayoutManager(layoutManager);
+  
+              // 어뎁터 대입
+              recyclerView.setAdapter(myAdapter);
+  
+  
+              progressDialog.dismiss();
+          }
+      }
+  
+  }
+  ```
+
+* **실행 결과**
+
+  ![img](../../capture/스크린샷 2019-04-05 오후 2.56.01.png)

@@ -106,16 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private class JsoupOver extends Jsoup {
-
-        private JsoupOver() {
-            super();
-
-        }
-
-
-    }
-
     private class Description extends AsyncTask<Void, Void, Void> {
 
         private ProgressDialog progressDialog;

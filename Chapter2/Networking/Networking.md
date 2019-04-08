@@ -634,6 +634,7 @@
       <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   
+    <!-- usesCleartextTraffic="true" 필수-->
       <application
           android:usesCleartextTraffic="true"
           android:allowBackup="true"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/recorderButton"
+        android:text="녹음"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/recorderStopButton"
+        android:text="녹음중지"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/startButton"
+        android:text="재생"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/pauseButton"
+        android:text="재생중지"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

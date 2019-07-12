@@ -20,10 +20,11 @@ import com.pedro.library.AutoPermissionsListener;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements AutoPermissionsListener {
-    MediaRecorder recorder;
-    MediaPlayer player;
 
-    String filename;
+    MediaRecorder recorder;     // 음성 재생을 위한 MediaPlayer 변수 선언
+    MediaPlayer player;         // 음성 녹음을 위한 MediaRecorder 변수 선언
+
+    String filename;            // 녹음된 음성을 저장할 파일 위치 변수 선언
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +63,26 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
             }
         });
 
+        // SD 카드 경로 저장
         String sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+        // 파일 위치 지정
         filename = sdcard + File.separator + "recorded.mp4";
-
         AutoPermissions.Companion.loadAllPermissions(this, 101);
     }
 
     public void startRecording() {
+        // MediaRecorder 객체 생성
         if (recorder == null) {
             recorder = new MediaRecorder();
         }
 
+        // MediaRecorder 객체에 필요한 정보 설정
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         recorder.setOutputFile(filename);
 
+        // prepare()와 start() 메소드를 이용해 녹음 시작
         try {
             recorder.prepare();
             recorder.start();
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     public void stopRecording() {
         if (recorder == null) return;
 
+        // 녹음 중지 후 리소스 해제
         recorder.stop();
         recorder.release();
         recorder = null;
@@ -104,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4");
         values.put(MediaStore.Audio.Media.DATA, filename);
 
+        // 녹음된 파일을 내용 제공자를 이용해 녹음 목록으로 저장
         Uri audioUri = getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
         if (audioUri == null) {
             Log.d("SampleAudioRecorder", "Audio insert failed.");
@@ -114,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     public void startPlay() {
         killMediaPlayer();
 
+        // MediaPlayer 객체 생성 후 경로를 지정한 뒤, 녹음 파일 재생
         try {
             player = new MediaPlayer();
             player.setDataSource("file://" + filename);
@@ -125,12 +134,14 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     }
 
     public void stopPlay() {
+        // 녹음 파일 정지
         if (player != null) {
             player.stop();
         }
     }
 
     private void killMediaPlayer() {
+        // 녹음 파일 재생 리소스 해제
         if (player != null) {
             try {
                 player.release();

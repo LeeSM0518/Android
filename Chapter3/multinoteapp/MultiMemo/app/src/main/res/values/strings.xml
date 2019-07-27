@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MultiMemo</string>
+    <string name="lisItemTitle">타이틀</string>
+    <string name="listItemDate">2019-07-27</string>
+    <string name="newMemoButton">새 메모</string>
+    <string name="closeButton">닫기</string>
+</resources>

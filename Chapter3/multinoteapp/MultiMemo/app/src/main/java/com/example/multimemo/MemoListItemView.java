@@ -123,7 +123,7 @@ public class MemoListItemView extends LinearLayout {
         mVoiceUri = sVoiceUri;
 
         if (sVideoUri == null || sVideoUri.trim().length() < 1 || sVideoUri.equals("-1")) {
-            itemVideoState.setImageResource(R.drawable.rec_empty);
+            itemVideoState.setImageResource(R.drawable.recempty);
         } else {
             itemVideoState.setImageResource(R.drawable.rec);
         }

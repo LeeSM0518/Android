@@ -25,7 +25,7 @@ public class BasicInfo {
     public static String FOLDER_VOICE = "memo/voice/";
 
     // 손글씨 저장 위치
-    public static final String FOLDER_HANDWRITING = "memo/handwriting/";
+    public static String FOLDER_HANDWRITING = "memo/handwriting/";
 
     // 미디어 포맷
     public static final String URI_MEDIA_FORMAT = "content://media";

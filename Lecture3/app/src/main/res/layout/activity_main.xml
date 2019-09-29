@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/main1ActivityButton"
+        android:text="실습 1번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main2ActivityButton"
+        android:text="실습 2번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main3ActivityButton"
+        android:text="실습 3번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main4ActivityButton"
+        android:text="실습 4번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main5ActivityButton"
+        android:text="실습 5번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main6ActivityButton"
+        android:text="실습 6번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main7ActivityButton"
+        android:text="실습 7번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main8ActivityButton"
+        android:text="실습 8번"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <Button
+        android:id="@+id/main9ActivityButton"
+        android:text="과제"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>

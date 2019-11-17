@@ -31,8 +31,6 @@ public class MultiMemoActivity extends AppCompatActivity {
 
     ListView mMemoListView;
     MemoListAdapter mMemoListAdapter;
-    int mMemoCount = 0;
-    TextView itemCount;
     public static MemoDatabase mDatabase = null;
 
     @Override
@@ -215,6 +213,9 @@ public class MultiMemoActivity extends AppCompatActivity {
                         handwritingId, handwritingUriStr, photoId, photoUriStr,
                         videoId, videoUriStr, voiceId, voiceUriStr));
             }
+            outCursor.close();
+
+            mMemoListAdapter.notifyDataSetChanged();
         }
 
         return recordCount;
@@ -283,7 +284,6 @@ public class MultiMemoActivity extends AppCompatActivity {
 
         String voiceUriStr = null;
         if (idVoice != null && idVoice.trim().length() > 0 && !idVoice.equals("-1")) {
-            // TODO DB 객체 추가
             String SQL = "select URI from " + MemoDatabase.TABLE_VOICE + " where _ID = "
                     + idVoice + "";
             Cursor voiceCursor = MultiMemoActivity.mDatabase.rawQuery(SQL);

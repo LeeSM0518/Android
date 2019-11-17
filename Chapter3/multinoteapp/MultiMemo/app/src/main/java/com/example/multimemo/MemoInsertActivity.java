@@ -1,6 +1,8 @@
 package com.example.multimemo;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,7 +39,6 @@ public class MemoInsertActivity extends AppCompatActivity {
     Button recordButton;
 
     EditText editText;
-    Button handwritingButton;
 
     Button saveButton;
     Button closeButton;
@@ -51,13 +52,10 @@ public class MemoInsertActivity extends AppCompatActivity {
     String mMediaPhotoUri;
     String mMediaVideoId;
     String mMediaVideoUri;
-    String mMediaHandwritingId;
-    String mMediaHandwritingUri;
 
     String tempPhotoUri;
     String tempVideoUri;
     String tempVoiceUri;
-    String tempHandwritingUri;
 
     String mDateStr;
     String mTitleStr;
@@ -66,22 +64,18 @@ public class MemoInsertActivity extends AppCompatActivity {
     boolean isPhotoCaptured;
     boolean isVideoRecorded;
     boolean isVoiceRecorded;
-    boolean isHandwritingMade;
 
     boolean isPhotoFileSaved;
     boolean isVideoFileSaved;
     boolean isVoiceFileSaved;
-    boolean isHandwritingSaved;
 
     boolean isPhotoCanceled;
     boolean isVideoCanceled;
     boolean isVoiceCanceled;
-    boolean isHandwritingCanceled;
 
     Calendar mCalendar = Calendar.getInstance();
 
     Bitmap resultPhotoBitmap;
-    Bitmap resultHandwritingBitmap;
 
     int textViewMode = 0;
 
@@ -97,12 +91,20 @@ public class MemoInsertActivity extends AppCompatActivity {
         recordButton = findViewById(R.id.recordButton);
 
         editText = findViewById(R.id.inputEditText);
-        handwritingButton = findViewById(R.id.handwritingButton);
 
         saveButton = findViewById(R.id.saveButton);
         closeButton = findViewById(R.id.closeButton);
 
-
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPhotoCaptured || isPhotoFileSaved) {
+                    showDialog(BasicInfo.CONTENT_PHOTO_EX);
+                } else {
+                    showDialog(BasicInfo.CONTENT_PHOTO);
+                }
+            }
+        });
     }
 
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -212,6 +214,41 @@ public class MemoInsertActivity extends AppCompatActivity {
         return photoName;
     }
 
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog.Builder builder = null;
+
+        switch (id) {
+            case BasicInfo.CONFIRM_TEXT_INPUT:
+
+        }
+    }
+
+    private void deleteMemo() {
+        Log.d(TAG, "deleting previous photo record and file : " + mMediaPhotoId);
+        String SQL = "delete from " + MemoDatabase.TABLE_PHOTO +
+                " where _ID = '" + mMediaPhotoId + "'";
+        Log.d(TAG, "SQL : " + SQL);
+        if (MultiMemoActivity.mDatabase != null) {
+            MultiMemoActivity.mDatabase.execSQL(SQL);
+        }
+
+        File photoFile = new File(BasicInfo.FOLDER_PHOTO + mMediaPhotoUri);
+        if (photoFile.exists()) {
+            photoFile.delete();
+        }
+
+        Log.d(TAG, "deleting previous memo record : " + mMemoId);
+        SQL = "delete from " + MemoDatabase.TABLE_MEMO +
+                " where _id = '" + mMemoId + "'";
+        Log.d(TAG, "SQL : " + SQL);
+        if (MultiMemoActivity.mDatabase != null) {
+            MultiMemoActivity.mDatabase.execSQL(SQL);
+        }
+
+        setResult(RESULT_OK);
+        finish();
+    }
+
     private String createFilename() {
         Date curDate = new Date();
         String curDateStr = String.valueOf(curDate.getTime());
@@ -268,21 +305,6 @@ public class MemoInsertActivity extends AppCompatActivity {
                     isPhotoCaptured = true;
 
                     imageView.invalidate();
-                }
-                break;
-
-            case BasicInfo.REQ_HANDWRITING_MAKING_ACTIVITY:
-                Log.d(TAG, "onActivityResult() for REQ_HANDWRITING_MAKING_ACTIVITY.");
-
-                if (resultCode == RESULT_OK) {
-                    boolean isHandwritingExists = checkMadeHandwritingFile();
-                    if (isHandwritingExists) {
-                        resultHandwritingBitmap = BitmapFactory.decodeFile(
-                                BasicInfo.FOLDER_HANDWRITING + "made");
-                        tempHandwritingUri = "made";
-
-                        isHandwritingMade = true;
-                    }
                 }
                 break;
 
@@ -349,11 +371,6 @@ public class MemoInsertActivity extends AppCompatActivity {
 
     private boolean checkCapturedPhotoFile() {
         File file = new File(BasicInfo.FOLDER_PHOTO + "captured");
-        return file.exists();
-    }
-
-    private boolean checkMadeHandwritingFile() {
-        File file = new File(BasicInfo.FOLDER_HANDWRITING + "made");
         return file.exists();
     }
 

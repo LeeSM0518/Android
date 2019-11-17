@@ -1,0 +1,82 @@
+package com.example.samplepush;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView textView;
+    TextView textView2;
+    EditText editText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        textView = findViewById(R.id.receiveTextView);
+        textView2 = findViewById(R.id.dataTextView);
+        editText = findViewById(R.id.sendEditText);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        String newToken = instanceIdResult.getToken();
+
+                        println("등록 id : " + newToken);
+                    }
+                });
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String instanceId = FirebaseInstanceId.getInstance().getId();
+
+                println("확인된 인스턴스 id : " + instanceId);
+            }
+        });
+    }
+
+    public void println(String data) {
+        textView2.append(data + "\n");
+        Log.d("FMS", data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        println("onNewIntent 호출됨");
+
+        if (intent != null) {
+            processIntent(intent);
+        }
+
+        super.onNewIntent(intent);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void processIntent(Intent intent) {
+        String from = intent.getStringExtra("from");
+
+        if (from == null) {
+            println("from is null.");
+            return;
+        }
+
+        String contents = intent.getStringExtra("contents");
+        println("DATA : " + from + ", " + contents);
+        textView.setText("[" + from + "]로부터 수신한 데이터 : " + contents);
+    }
+}

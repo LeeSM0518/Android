@@ -1,8 +1,5 @@
 package com.example.lecture7;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.Manifest;
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -19,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 public class Assignment7 extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 

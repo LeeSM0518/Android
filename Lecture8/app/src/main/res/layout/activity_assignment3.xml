@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Assignment3">
+
+    <Button
+        android:text="서브 액티비티로부터 문자열 반환빋기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/returnButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="반환된 문자열"
+        android:id="@+id/returnTextView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="___________________"
+        android:id="@+id/text"/>
+
+</LinearLayout>

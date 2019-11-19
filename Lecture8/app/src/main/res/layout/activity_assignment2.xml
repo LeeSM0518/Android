@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/soccer3">
+
+    <LinearLayout
+        android:layout_margin="80dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/introButton"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:onClick="myListener1"
+            android:layout_margin="10dp"
+            android:text="Introduction"/>
+        <Button
+            android:id="@+id/SettingsButton"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:onClick="myListener2"
+            android:layout_margin="10dp"
+            android:text="Settings"/>
+        <Button
+            android:id="@+id/StartButton"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:onClick="myListener3"
+            android:layout_margin="10dp"
+            android:text="Start"/>
+
+    </LinearLayout>
+
+</FrameLayout>

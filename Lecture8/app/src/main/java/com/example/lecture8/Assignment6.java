@@ -2,6 +2,8 @@ package com.example.lecture8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,7 @@ public class Assignment6 extends AppCompatActivity {
     TextView textView;
     int count = 0;
 
-    @Override
+    @SuppressLint("SetTextI18n")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment6);
@@ -36,11 +38,11 @@ public class Assignment6 extends AppCompatActivity {
                 textView.setText("현재 개수 = " + count);
             }
         });
-
         if (savedInstanceState != null) {
             count = savedInstanceState.getInt("count");
             textView.setText("현재 개수 = " + count);
         }
+
     }
 
     @Override
@@ -48,4 +50,5 @@ public class Assignment6 extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("count", count);
     }
+
 }

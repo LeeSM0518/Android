@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MinsPortfolio</string>
+    <string name="title_home">Me</string>
+    <string name="title_dashboard">Github</string>
+    <string name="title_notifications">Prize</string>
+    <string name="welcome">Welcome!</string>
+    <string name="min_s_portfolio">Min\'s portfolio</string>
+</resources>

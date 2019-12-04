@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/homeLanguageImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/java"/>
+        <TextView
+            android:id="@+id/homeLanguageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blueText"
+            android:textSize="25dp"
+            android:text="Java"
+            android:layout_gravity="center"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/homeCareerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blueText"
+            android:layout_marginTop="10dp"
+            android:textStyle="italic"
+            android:text="경력 : 1년"/>
+
+        <TextView
+            android:id="@+id/homeProfTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blueText"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"
+            android:text="숙련도(A, B, C, D, E) : A"/>
+
+        <TextView
+            android:id="@+id/homeDoneListView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textColor="@color/blueText"
+            android:layout_marginTop="10dp"
+            android:text="해본 것들 : pandas, crawling, Depp learning, Open CV"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
